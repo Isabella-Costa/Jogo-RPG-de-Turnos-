@@ -1,3 +1,5 @@
+import Personagem;
+
 public class Mago extends Personagem {
 
     //Sobrescrevendo Personagem

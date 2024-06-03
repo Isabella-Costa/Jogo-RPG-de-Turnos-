@@ -1,3 +1,6 @@
+import Personagem;
+
+
 public class DragaoAlado extends  Personagem{
 
     @Override

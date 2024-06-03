@@ -1,3 +1,5 @@
+import Soldado;
+
 public class General extends Soldado {
 
     //Sobrescrevendo Personagem//

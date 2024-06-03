@@ -1,3 +1,5 @@
+import Personagem;
+
 public class LutSUMO extends Personagem{
 
     @Override 
