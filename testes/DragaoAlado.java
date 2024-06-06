@@ -1,5 +1,4 @@
-import Personagem;
-
+package testes;
 
 public class DragaoAlado extends  Personagem{
 

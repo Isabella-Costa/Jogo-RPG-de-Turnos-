@@ -1,3 +1,4 @@
+package testes;
 public class Soldado extends Personagem {
     //Sobrescrevendo Personagem//
 

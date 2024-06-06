@@ -1,4 +1,4 @@
-import Personagem;
+package testes;
 
 public class Mago extends Personagem {
 

@@ -1,4 +1,4 @@
-import Personagem;
+package testes;
 
 public class LutSUMO extends Personagem{
 

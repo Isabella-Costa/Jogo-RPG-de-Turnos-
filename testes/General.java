@@ -1,4 +1,4 @@
-import Soldado;
+package testes;
 
 public class General extends Soldado {
 

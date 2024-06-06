@@ -1,3 +1,4 @@
+package testes;
 public abstract class Personagem {
     Arma_IF arma;
 
