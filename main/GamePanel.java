@@ -2,6 +2,9 @@ package main;
 import javax.swing.JPanel;
 
 import entity.*;
+import tile.Tile;
+import tile.TileManager;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -10,28 +13,25 @@ import java.awt.Graphics2D;
 public class GamePanel extends JPanel implements Runnable{
 
     //configurações de tela
-    final int originalTileSize = 16;  //Bloco 16x16
+    final int originalTileSize = 16;  //Bloco 20x20
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;   // Bloco 48x48
-    final int maxScreenColuna = 16;
-    final int maxScreenLargura = 12;
-    final int screenWidth = tileSize * maxScreenColuna;      //768 pixels
-    final int screenHeigth = tileSize * maxScreenLargura;    //576 pixels
+    public final int maxScreenColuna = 16;
+    public final int maxScreenLargura = 12;
+    public final int screenWidth = tileSize * maxScreenColuna;      //768 pixels
+    public final int screenHeigth = tileSize * maxScreenLargura;    //576 pixels
     
     //FPS (Frame Per Second)
     int FPS = 60;
 
-
+    TileManager tileM = new TileManager(this);
 
     Movimentacao keyH = new Movimentacao();
     Thread gameThread;
     Player player = new Player(this, keyH); 
 
-    //Define a posição padrão do jogador
-    int playerX = 100;
-    int playerY = 100;
-    int playerSpeed = 4;
+    
 
 
     public GamePanel(){
@@ -69,8 +69,6 @@ public class GamePanel extends JPanel implements Runnable{
 
             delta += (currentTime - lastTime)/ drawIntervalo;
             timer += (currentTime - lastTime);
-
-
             lastTime = currentTime;
 
             if(delta >=1){
@@ -80,11 +78,6 @@ public class GamePanel extends JPanel implements Runnable{
               drawCount++;
             }
 
-            /*if(timer >= 1000000000){
-                System.out.println("FPS:" + drawCount);
-                drawCount = 0;
-                timer = 0;
-            }*/
         }
     }
 
@@ -97,7 +90,8 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-
+        
+        tileM.draw(g2);
         player.draw(g2);
 
         g2.dispose();

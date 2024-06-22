@@ -20,7 +20,7 @@ public class Player extends Entity {
         this.keyH = keyH;
 
         setDefaultValues();
-        getPlayerImage(); // Chame o método para carregar as imagens
+        getPlayerImage(); // Chama o método para carregar as imagens
     }
 
     public void setDefaultValues() {
@@ -46,18 +46,32 @@ public class Player extends Entity {
     }
 
     public void update() {
-        if (keyH.upPressed) {
-            direction = "frente";
-            y -= speed;
-        } else if (keyH.downPressed) {
-            direction = "costas";
-            y += speed;
-        } else if (keyH.leftPressed) {
-            direction = "esquerda";
-            x -= speed;
-        } else if (keyH.rightPressed) {
-            direction = "direita";
-            x += speed;
+
+        if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true ){
+           
+            if (keyH.upPressed) {
+               direction = "frente";
+               y -= speed;
+            } else if (keyH.downPressed) {
+               direction = "costas";
+               y += speed;
+            } else if (keyH.leftPressed) {
+              direction = "esquerda";
+              x -= speed;
+            } else if (keyH.rightPressed) {
+              direction = "direita";
+               x += speed;
+            }
+
+            spriteCounter++;
+            if (spriteCounter > 15) {
+              if (spriteNum == 1) {
+                  spriteNum = 2;
+              } else if (spriteNum ==2){
+                  spriteNum = 1;
+              }
+              spriteCounter =0;
+            } 
         }
     }
 
@@ -65,16 +79,36 @@ public class Player extends Entity {
         BufferedImage imagem = null;
         switch (direction) {
             case "frente":
-                imagem = frente1;
+                if (spriteNum == 1){
+                    imagem = frente1;
+                }
+                if (spriteNum == 2){
+                    imagem = frente2;
+                }
                 break;
             case "costas":
-                imagem = costas1;
+                if (spriteNum == 1){
+                  imagem = costas1;
+                }
+                if (spriteNum == 2){
+                  imagem = costas2;
+                }
                 break;
             case "esquerda":
-                imagem = esquerda1;
+                if (spriteNum == 1){
+                  imagem = esquerda1;
+                }
+                if (spriteNum == 2){
+                  imagem = esquerda2;
+                }
                 break;
             case "direita":
-                imagem = direita1;
+                if (spriteNum == 1){
+                  imagem = direita1;
+                }
+                if (spriteNum == 2){
+                  imagem = direita2;
+                }
                 break;
         }
         g2.drawImage(imagem, x, y, gp.tileSize, gp.tileSize, null);
