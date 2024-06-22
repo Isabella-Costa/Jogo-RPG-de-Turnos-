@@ -1,17 +1,21 @@
 package entity;
 
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-import main.GamePanel;
-import main.Movimentacao;
+import main.*;
+
 
 public class Player extends Entity {
     
     GamePanel gp;
     Movimentacao keyH;
+
+    public final int screenX; 
+    public final int screenY;
 
     BufferedImage frente1, frente2, costas1, costas2, esquerda1, esquerda2, direita1, direita2;
 
@@ -19,23 +23,28 @@ public class Player extends Entity {
         this.gp = gp;
         this.keyH = keyH;
 
+        screenX = gp.screenWidth / 2  - (gp.tileSize/2);
+        screenY = gp.screenHeigth / 2 - (gp.tileSize/2);
+
+        solidArea = new Rectangle(8, 16, 32, 32);
+        
         setDefaultValues();
-        getPlayerImage(); // Chama o método para carregar as imagens
+        getPlayerImage(); 
     }
 
     public void setDefaultValues() {
-        x = 100;
-        y = 100;
+        worldX = gp.tileSize * 23;
+        worldY = gp.tileSize * 21;
         speed = 4;
         direction = "direita";
     }
 
     public void getPlayerImage() {
         try {
-            frente1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerFrente1.png"));
-            frente2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerFrente2.png"));
-            costas1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerCostas1.png"));
-            costas2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerCostas2.png"));
+            frente1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerCostas1.png"));
+            frente2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerCostas2.png"));
+            costas1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerFrente1.png"));
+            costas2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerFrente2.png"));
             esquerda1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerEsquerda1.png"));
             esquerda2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerEsquerda2.png"));
             direita1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerDireita1.png"));
@@ -51,16 +60,30 @@ public class Player extends Entity {
            
             if (keyH.upPressed) {
                direction = "frente";
-               y -= speed;
+
             } else if (keyH.downPressed) {
                direction = "costas";
-               y += speed;
+
             } else if (keyH.leftPressed) {
               direction = "esquerda";
-              x -= speed;
+              
             } else if (keyH.rightPressed) {
               direction = "direita";
-               x += speed;
+            }
+            
+            //Check tile Colisão
+            colisaoOn = false;
+            gp.cCheck.checkTile(this);
+
+            //Se colisão for false, player consegue mover
+            if(colisaoOn == false){
+                
+                switch (direction) {
+                    case "frente": worldY -= speed; break;
+                    case "costas": worldY += speed; break;
+                    case "esquerda": worldX -= speed; break;
+                    case "direita": worldX += speed;worldX += speed; break;
+                }
             }
 
             spriteCounter++;
@@ -111,7 +134,7 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(imagem, x, y, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(imagem, screenX, screenY, gp.tileSize, gp.tileSize, null);
     }
 }
 

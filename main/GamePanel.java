@@ -1,10 +1,9 @@
 package main;
-import javax.swing.JPanel;
 
+import javax.swing.JPanel;
 import entity.*;
 import tile.Tile;
 import tile.TileManager;
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
@@ -21,7 +20,14 @@ public class GamePanel extends JPanel implements Runnable{
     public final int maxScreenLargura = 12;
     public final int screenWidth = tileSize * maxScreenColuna;      //768 pixels
     public final int screenHeigth = tileSize * maxScreenLargura;    //576 pixels
+
+    //WORLD SETTINGS
+    public final int maxWorldColuna = 50;
+    public final int maxWorldLargura = 50;
+    public final int WorldWidth = tileSize * maxScreenColuna;
+    public final int WorldHeigth = tileSize * maxScreenLargura;
     
+
     //FPS (Frame Per Second)
     int FPS = 60;
 
@@ -29,7 +35,8 @@ public class GamePanel extends JPanel implements Runnable{
 
     Movimentacao keyH = new Movimentacao();
     Thread gameThread;
-    Player player = new Player(this, keyH); 
+    ColisaoCheck cCheck = new ColisaoCheck(this);  
+    public Player player = new Player(this, keyH); 
 
     
 
