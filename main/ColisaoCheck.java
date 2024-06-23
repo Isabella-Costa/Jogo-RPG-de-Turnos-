@@ -11,42 +11,53 @@ public class ColisaoCheck {
     }
 
     public void checkTile(Entity entity) {
-        
         int entityLeftWorldX = entity.worldX + entity.solidArea.x;
-        int entityRigthWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
+        int entityRightWorldX = entity.worldX + entity.solidArea.x + entity.solidArea.width;
         int entityTopWorldY = entity.worldY + entity.solidArea.y;
         int entityBottomWorldY = entity.worldY + entity.solidArea.y + entity.solidArea.height;
-        
-        int entityLeftCol = entityLeftWorldX/gp.tileSize;
-        int entityRigthCol = entityRigthWorldX/gp.tileSize;
-        int entityTopLargura = entityTopWorldY/gp.tileSize;
-        int entityBottomLargura = entityBottomWorldY/gp.tileSize;
+
+        int entityLeftCol = entityLeftWorldX / gp.tileSize;
+        int entityRightCol = entityRightWorldX / gp.tileSize;
+        int entityTopRow = entityTopWorldY / gp.tileSize;
+        int entityBottomRow = entityBottomWorldY / gp.tileSize;
 
         int tileNum1, tileNum2;
 
-        switch(entity.direction){
-            case "up":
-               entityTopLargura = (entityTopWorldY - entity.speed) / gp.tileSize;
-               tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopLargura];
-               tileNum2 = gp.tileM.mapTileNum[entityRigthCol][entityTopLargura];
-               if(gp.tileM.tile[tileNum1].colisao == true || gp.tileM.tile[tileNum2].colisao == true ){
+        switch(entity.direction) {
+            case "frente":
+                entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
+                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+                if(gp.tileM.tile[tileNum1].colisao || gp.tileM.tile[tileNum2].colisao) {
                     entity.colisaoOn = true;
-               }
-               break;
-
-            case "down":
-               entityBottomLargura = (entityBottomWorldY + entity.speed) / gp.tileSize;
-               break;
-
-            case "left":
-               break;
-
-            case "right":
-               break;
-            
-            
+                }
+                break;
+            case "costas":
+                entityBottomRow = (entityBottomWorldY + entity.speed) / gp.tileSize;
+                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                if(gp.tileM.tile[tileNum1].colisao || gp.tileM.tile[tileNum2].colisao) {
+                    entity.colisaoOn = true;
+                }
+                break;
+            case "esquerda":
+                entityLeftCol = (entityLeftWorldX - entity.speed) / gp.tileSize;
+                tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
+                tileNum2 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
+                if(gp.tileM.tile[tileNum1].colisao || gp.tileM.tile[tileNum2].colisao) {
+                    entity.colisaoOn = true;
+                }
+                break;
+            case "direita":
+                entityRightCol = (entityRightWorldX + entity.speed) / gp.tileSize;
+                tileNum1 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
+                tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
+                if(gp.tileM.tile[tileNum1].colisao || gp.tileM.tile[tileNum2].colisao) {
+                    entity.colisaoOn = true;
+                }
+                break;
         }
-
     }
 }
+
 

@@ -35,7 +35,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     Movimentacao keyH = new Movimentacao();
     Thread gameThread;
-    ColisaoCheck cCheck = new ColisaoCheck(this);  
+    public ColisaoCheck cCheck = new ColisaoCheck(this);  
     public Player player = new Player(this, keyH); 
 
     

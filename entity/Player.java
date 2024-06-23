@@ -76,13 +76,13 @@ public class Player extends Entity {
             gp.cCheck.checkTile(this);
 
             //Se colisão for false, player consegue mover
-            if(colisaoOn == false){
+            if(!colisaoOn){
                 
                 switch (direction) {
                     case "frente": worldY -= speed; break;
                     case "costas": worldY += speed; break;
                     case "esquerda": worldX -= speed; break;
-                    case "direita": worldX += speed;worldX += speed; break;
+                    case "direita": worldX += speed; break;
                 }
             }
 

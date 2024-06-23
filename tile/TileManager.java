@@ -25,6 +25,7 @@ public class TileManager {
         loadMap("/resources/maps/world01.txt");
     }
 
+
     public void getTileImage() {
         try {
             tile[0] = new Tile();
@@ -36,7 +37,7 @@ public class TileManager {
 
             tile[2] = new Tile();
             tile[2].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/lava.jpg"));
-
+            tile[2].colisao = true;
 
             tile[3] = new Tile();
             tile[3].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/gelo.jpg"));
@@ -48,7 +49,6 @@ public class TileManager {
             tile[5] = new Tile();
             tile[5].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/pedraComGrama.jpg"));
             tile[5].colisao = true;
-
         } catch (IOException e) {
             e.printStackTrace();
         }
