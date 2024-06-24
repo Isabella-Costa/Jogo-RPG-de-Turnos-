@@ -34,7 +34,7 @@ public class GamePanel extends JPanel implements Runnable{
     Movimentacao keyH = new Movimentacao();
     Thread gameThread;
     public ColisaoCheck cCheck = new ColisaoCheck(this); 
-    public ConfiguracaoDeAtivos aSetter = new ConfiguracaoDeAtivos(this) ;
+    public ConfiguracaoDeObjetos aSetter = new ConfiguracaoDeObjetos(this) ;
     public Player player = new Player(this, keyH); 
     public SuperObjeto obj[] = new SuperObjeto[10]; //quantidade de objetos no jogo
     

@@ -13,6 +13,7 @@ public class Player extends Entity {
     
     GamePanel gp;
     Movimentacao keyH;
+    int temChave = 0;
 
     public final int screenX; 
     public final int screenY;
@@ -27,7 +28,8 @@ public class Player extends Entity {
         screenY = gp.screenHeigth / 2 - (gp.tileSize/2);
 
         solidArea = new Rectangle(8, 16, 32, 32);
-        
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
         setDefaultValues();
         getPlayerImage(); 
     }
@@ -75,6 +77,11 @@ public class Player extends Entity {
             colisaoOn = false;
             gp.cCheck.checkTile(this);
 
+            // Check colisão obj
+            int objIndex = gp.cCheck.checkObjeto(this, true);
+            pegarObjeto(objIndex);
+
+
             //Se colisão for false, player consegue mover
             if(!colisaoOn){
                 
@@ -97,6 +104,29 @@ public class Player extends Entity {
             } 
         }
     }
+
+
+
+    public void pegarObjeto(int i){
+        
+        if ( i != 999){
+
+            String objetoName = gp.obj[i].name;
+            switch (objetoName){
+                case "Chave":
+                   temChave++;
+                   gp.obj[i] = null;
+                   break;
+                case "Porta":
+                   if(temChave > 0){
+                      gp.obj[i] = null;
+                      temChave--;
+                   }
+                   break;       
+            }
+
+        }
+    }  
 
     public void draw(Graphics2D g2) {
         BufferedImage imagem = null;
