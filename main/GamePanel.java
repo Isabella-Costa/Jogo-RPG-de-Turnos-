@@ -1,13 +1,12 @@
 package main;
 
-import javax.swing.JPanel;
 import entity.*;
 import tile.Tile;
 import tile.TileManager;
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
+import objeto.*;
+
+import java.awt.*;
+import javax.swing.JPanel;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -21,7 +20,7 @@ public class GamePanel extends JPanel implements Runnable{
     public final int screenWidth = tileSize * maxScreenColuna;      //768 pixels
     public final int screenHeigth = tileSize * maxScreenLargura;    //576 pixels
 
-    //WORLD SETTINGS
+    //Configurações Mapa WORLD
     public final int maxWorldColuna = 50;
     public final int maxWorldLargura = 50;
     public final int WorldWidth = tileSize * maxScreenColuna;
@@ -32,14 +31,13 @@ public class GamePanel extends JPanel implements Runnable{
     int FPS = 60;
 
     TileManager tileM = new TileManager(this);
-
     Movimentacao keyH = new Movimentacao();
     Thread gameThread;
-    public ColisaoCheck cCheck = new ColisaoCheck(this);  
+    public ColisaoCheck cCheck = new ColisaoCheck(this); 
+    public ConfiguracaoDeAtivos aSetter = new ConfiguracaoDeAtivos(this) ;
     public Player player = new Player(this, keyH); 
-
+    public SuperObjeto obj[] = new SuperObjeto[10]; //quantidade de objetos no jogo
     
-
 
     public GamePanel(){
 
@@ -50,7 +48,10 @@ public class GamePanel extends JPanel implements Runnable{
         this.setFocusable(true);
 
     }
-
+    
+    public void setupGame(){
+        aSetter.setObjeto();
+    }
     
     public void startGameThread(){
 
@@ -98,8 +99,18 @@ public class GamePanel extends JPanel implements Runnable{
 
         Graphics2D g2 = (Graphics2D)g;
         
+        //Tile
         tileM.draw(g2);
+
+        //Player
         player.draw(g2);
+
+        //Objeto
+        for ( int i = 0; i < obj.length; i++){
+            if(obj[i] != null){
+                obj[i].draw(g2, this);
+            }
+        }
 
         g2.dispose();
     }
