@@ -122,7 +122,11 @@ public class Player extends Entity {
                       gp.obj[i] = null;
                       temChave--;
                    }
-                   break;       
+                   break;  
+                case "Raio":
+                    speed +=2;
+                    gp.obj[i] = null;
+                    break;
             }
 
         }

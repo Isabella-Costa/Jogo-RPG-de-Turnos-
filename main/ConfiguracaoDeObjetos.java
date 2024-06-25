@@ -41,5 +41,9 @@ public class ConfiguracaoDeObjetos {
         gp.obj[6].worldX = 22 * gp.tileSize;
         gp.obj[6].worldY = 13 * gp.tileSize;
 
+        gp.obj[7] = new OBJ_Raio();
+        gp.obj[7].worldX = 39 * gp.tileSize;
+        gp.obj[7].worldY = 7 * gp.tileSize;
+
     }
 }

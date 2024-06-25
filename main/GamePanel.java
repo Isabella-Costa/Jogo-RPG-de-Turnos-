@@ -23,18 +23,21 @@ public class GamePanel extends JPanel implements Runnable{
     //Configurações Mapa WORLD
     public final int maxWorldColuna = 50;
     public final int maxWorldLargura = 50;
-    public final int WorldWidth = tileSize * maxScreenColuna;
-    public final int WorldHeigth = tileSize * maxScreenLargura;
-    
 
     //FPS (Frame Per Second)
     int FPS = 60;
+    
+    //Instaciações
 
+    //Sistema:
     TileManager tileM = new TileManager(this);
     Movimentacao keyH = new Movimentacao();
-    Thread gameThread;
+    Sound sound = new Sound();
     public ColisaoCheck cCheck = new ColisaoCheck(this); 
-    public ConfiguracaoDeObjetos aSetter = new ConfiguracaoDeObjetos(this) ;
+    public ConfiguracaoDeObjetos aSetter = new ConfiguracaoDeObjetos(this);
+    Thread gameThread;
+
+    //Entity e Objetos
     public Player player = new Player(this, keyH); 
     public SuperObjeto obj[] = new SuperObjeto[10]; //quantidade de objetos no jogo
     
@@ -114,6 +117,13 @@ public class GamePanel extends JPanel implements Runnable{
 
         g2.dispose();
     }
+    
+    public void playMusic(int i){
 
+        sound.setFile(i);
+        sound.play();
+        sound.loop();
+
+    }
 
 }
