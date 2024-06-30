@@ -24,7 +24,7 @@ public class ColisaoCheck {
         int tileNum1, tileNum2;
 
         switch(entity.direction) {
-            case "frente":
+            case "subida":
                 entityTopRow = (entityTopWorldY - entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityTopRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityTopRow];
@@ -32,7 +32,7 @@ public class ColisaoCheck {
                     entity.colisaoOn = true;
                 }
                 break;
-            case "costas":
+            case "descida":
                 entityBottomRow = (entityBottomWorldY + entity.speed) / gp.tileSize;
                 tileNum1 = gp.tileM.mapTileNum[entityLeftCol][entityBottomRow];
                 tileNum2 = gp.tileM.mapTileNum[entityRightCol][entityBottomRow];
@@ -75,7 +75,7 @@ public class ColisaoCheck {
                 gp.obj[i].solidArea.y = gp.obj[i].worldY + gp.obj[i].solidArea.y;
 
                 switch (entity.direction) {
-                    case "frente":
+                    case "subida":
                         entity.solidArea.y -= entity.speed;
                         if(entity.solidArea.intersects(gp.obj[i].solidArea)){ //Checa se os dois "retângulos" se inteceptam
                             if(gp.obj[i].colisao == true){
@@ -86,7 +86,7 @@ public class ColisaoCheck {
                             }
                         }
                         break;
-                    case "costas":
+                    case "descida":
                         entity.solidArea.y += entity.speed;
                         if(entity.solidArea.intersects(gp.obj[i].solidArea)){ 
                             if(gp.obj[i].colisao == true){

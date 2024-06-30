@@ -13,12 +13,12 @@ public class Player extends Entity {
     
     GamePanel gp;
     Movimentacao keyH;
-    int temChave = 0;
+    public int temChave = 0;
 
     public final int screenX; 
     public final int screenY;
 
-    BufferedImage frente1, frente2, costas1, costas2, esquerda1, esquerda2, direita1, direita2;
+    BufferedImage subida1, subida2, descida1, descida2, esquerda1, esquerda2, direita1, direita2;
 
     public Player(GamePanel gp, Movimentacao keyH) {
         this.gp = gp;
@@ -42,18 +42,29 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
+        subida1 = setup("playerSubida1");
+        subida2 = setup("playerSubida2");
+        descida1 = setup("playerDescida1");
+        descida2 = setup("playerDescida2");
+        esquerda1 = setup("playerEsquerda1");
+        esquerda2 = setup("playerEsquerda2");
+        direita1 = setup("playerDireita2");
+        direita2 = setup("playerDireita1");
+    }
+
+    public BufferedImage setup(String imageName){
+         
+        UtilsFerramentas utilsF = new UtilsFerramentas();
+        BufferedImage image = null;
+
         try {
-            frente1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerCostas1.png"));
-            frente2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerCostas2.png"));
-            costas1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerFrente1.png"));
-            costas2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerFrente2.png"));
-            esquerda1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerEsquerda1.png"));
-            esquerda2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerEsquerda2.png"));
-            direita1 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerDireita2.png"));
-            direita2 = ImageIO.read(getClass().getResourceAsStream("/resources/player/playerDireita1.png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/resources/player/" +imageName +".png"));
+            image = utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
+            
         } catch (IOException e) {
             e.printStackTrace();
-        } 
+        }
+        return image;
     }
 
     public void update() {
@@ -61,10 +72,10 @@ public class Player extends Entity {
         if(keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true ){
            
             if (keyH.upPressed) {
-               direction = "frente";
+               direction = "subida";
 
             } else if (keyH.downPressed) {
-               direction = "costas";
+               direction = "descida";
 
             } else if (keyH.leftPressed) {
               direction = "esquerda";
@@ -86,8 +97,8 @@ public class Player extends Entity {
             if(!colisaoOn){
                 
                 switch (direction) {
-                    case "frente": worldY -= speed; break;
-                    case "costas": worldY += speed; break;
+                    case "subida": worldY -= speed; break;
+                    case "descida": worldY += speed; break;
                     case "esquerda": worldX -= speed; break;
                     case "direita": worldX += speed; break;
                 }
@@ -116,16 +127,24 @@ public class Player extends Entity {
                 case "Chave":
                    temChave++;
                    gp.obj[i] = null;
+                   gp.ui.showMessage("VOCÊ COLETOU UMA CHAVE!");
                    break;
                 case "Porta":
                    if(temChave > 0){
                       gp.obj[i] = null;
                       temChave--;
+                      gp.ui.showMessage("VOCÊ ABRIU A PORTA");
+                   } else {
+                    gp.ui.showMessage("VOCÊ PRECISA DE UMA CHAVE");
                    }
                    break;  
                 case "Raio":
                     speed +=2;
                     gp.obj[i] = null;
+                    gp.ui.showMessage("++VELOCIDADE");
+                    break;
+                case "Bau":
+                    gp.ui.fimDeJogo = true;
                     break;
             }
 
@@ -135,20 +154,20 @@ public class Player extends Entity {
     public void draw(Graphics2D g2) {
         BufferedImage imagem = null;
         switch (direction) {
-            case "frente":
+            case "subida":
                 if (spriteNum == 1){
-                    imagem = frente1;
+                    imagem = subida1;
                 }
                 if (spriteNum == 2){
-                    imagem = frente2;
+                    imagem = subida2;
                 }
                 break;
-            case "costas":
+            case "descida":
                 if (spriteNum == 1){
-                  imagem = costas1;
+                  imagem = descida1;
                 }
                 if (spriteNum == 2){
-                  imagem = costas2;
+                  imagem = descida2;
                 }
                 break;
             case "esquerda":
@@ -168,7 +187,7 @@ public class Player extends Entity {
                 }
                 break;
         }
-        g2.drawImage(imagem, screenX, screenY, gp.tileSize, gp.tileSize, null);
+        g2.drawImage(imagem, screenX, screenY, null);
     }
 }
 

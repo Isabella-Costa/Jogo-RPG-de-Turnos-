@@ -1,8 +1,11 @@
 package tile;
 
 import main.GamePanel;
+import main.UtilsFerramentas;
+import main.UtilsFerramentas;
 
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -27,31 +30,27 @@ public class TileManager {
 
 
     public void getTileImage() {
+            setup(0, "chao", false);
+            setup(1, "pedra", true);
+            setup(2, "lava", false);
+            setup(3, "gelo", false);
+            setup(4, "tijolo", true);
+            setup(5, "pedraComGrama", true);
+    }
+
+    public void setup (int index, String imageName, boolean colisao){
+        UtilsFerramentas utilsF = new UtilsFerramentas();
+
         try {
-            tile[0] = new Tile();
-            tile[0].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/terra.jpg"));
-
-            tile[1] = new Tile();
-            tile[1].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/pedra.jpg"));
-            tile[1].colisao = true;
-
-            tile[2] = new Tile();
-            tile[2].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/lava.jpg"));
-            tile[2].colisao = true;
-
-            tile[3] = new Tile();
-            tile[3].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/gelo.jpg"));
-
-            tile[4] = new Tile();
-            tile[4].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/tijolo.jpg"));
-            tile[4].colisao = true;
-
-            tile[5] = new Tile();
-            tile[5].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/pedraComGrama.jpg"));
-            tile[5].colisao = true;
+            tile[index] = new Tile();
+            tile[index].image = ImageIO.read(getClass().getResourceAsStream("/resources/tiles/"+ imageName +".jpg"));
+            tile[index].image = utilsF.scaleImage(tile[index].image, gp.tileSize, gp.tileSize);
+            tile[index].colisao = colisao;
+            
         } catch (IOException e) {
             e.printStackTrace();
         }
+
     }
 
     public void loadMap(String filePath) {
@@ -96,6 +95,7 @@ public class TileManager {
     
                     g2.drawImage(tile[tileNum].image, screenX, screenY, gp.tileSize, gp.tileSize, null);
                 }
+
             }
         }
     }

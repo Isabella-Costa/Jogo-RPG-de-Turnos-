@@ -32,15 +32,20 @@ public class GamePanel extends JPanel implements Runnable{
     //Sistema:
     TileManager tileM = new TileManager(this);
     Movimentacao keyH = new Movimentacao();
-    Sound sound = new Sound();
+    //Sound sound = new Sound();
     public ColisaoCheck cCheck = new ColisaoCheck(this); 
     public ConfiguracaoDeObjetos aSetter = new ConfiguracaoDeObjetos(this);
+    public UserInterface ui = new UserInterface(this);
     Thread gameThread;
 
     //Entity e Objetos
     public Player player = new Player(this, keyH); 
     public SuperObjeto obj[] = new SuperObjeto[10]; //quantidade de objetos no jogo
     
+
+    //Estado do jogo
+    //public int gameState;
+    //public final int menuState = 0;
 
     public GamePanel(){
 
@@ -114,16 +119,20 @@ public class GamePanel extends JPanel implements Runnable{
                 obj[i].draw(g2, this);
             }
         }
+        //User Interface
+        ui.draw(g2);
+
+
 
         g2.dispose();
     }
     
-    public void playMusic(int i){
+    /*public void playMusic(int i){
 
         sound.setFile(i);
         sound.play();
         sound.loop();
 
-    }
+    }*/
 
 }
