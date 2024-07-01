@@ -14,7 +14,7 @@ public class ConfiguracaoDeObjetos {
 
     
     public void setObjeto(){
-       /*  gp.obj[0] = new OBJ_Chave(gp);
+        gp.obj[0] = new OBJ_Chave(gp);
         gp.obj[0].worldX = 23 * gp.tileSize;
         gp.obj[0].worldY = 9 * gp.tileSize;
 
@@ -46,7 +46,7 @@ public class ConfiguracaoDeObjetos {
         gp.obj[7].worldX = 39 * gp.tileSize;
         gp.obj[7].worldY = 7 * gp.tileSize;
 
-    }*/
+    
 }
 
     public void setNPC(){

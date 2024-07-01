@@ -23,6 +23,8 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean colisaoOn = false;
     public int bloqueioDeAcaoContador =0;
+    String dialogos[] = new String[50]; // variedade de diálogo melhorar dps
+    int dialogosIndex = 0;
 
 
     public Entity(GamePanel gp) {
@@ -31,6 +33,32 @@ public class Entity {
 
     public void setAction(){
 
+    }
+    public void speak(){
+        if(dialogos[dialogosIndex] == null){
+            dialogosIndex = 0;
+        }
+
+        gp.ui.currentDialogo = dialogos[dialogosIndex];
+        dialogosIndex++;
+
+        switch (gp.player.direction) {
+            case "subida":
+                direction = "descida";
+                break;
+            case "descida":
+                direction = "subida";
+                break;
+            case "esquerda":
+                direction = "direita";
+                break;
+            case "direita":
+                direction = "esquerda";
+                break;
+            
+            
+        }
+        
     }
 
     public void update(){

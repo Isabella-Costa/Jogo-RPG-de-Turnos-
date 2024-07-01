@@ -110,38 +110,20 @@ public class Player extends Entity {
         
         if ( i != 999){
 
-            String objetoName = gp.obj[i].name;
-            switch (objetoName){
-                case "Chave":
-                   temChave++;
-                   gp.obj[i] = null;
-                   gp.ui.showMessage("VOCÊ COLETOU UMA CHAVE!");
-                   break;
-                case "Porta":
-                   if(temChave > 0){
-                      gp.obj[i] = null;
-                      temChave--;
-                      gp.ui.showMessage("VOCÊ ABRIU A PORTA");
-                   } else {
-                    gp.ui.showMessage("VOCÊ PRECISA DE UMA CHAVE");
-                   }
-                   break;  
-                case "Raio":
-                    speed +=2;
-                    gp.obj[i] = null;
-                    gp.ui.showMessage("++VELOCIDADE");
-                    break;
-                case "Bau":
-                    gp.ui.fimDeJogo = true;
-                    break;
+            }
+
+    }
+    
+    public void interacaoNPC(int i){
+        if ( i != 999){
+
+            if(gp.keyH.enterPressed == true){
+                gp.gameState = gp.dialogoState;
+                gp.npc[i].speak();
             }
 
         }
-    }  
-    public void interacaoNPC(int i){
-        if ( i != 999){
-            
-        }
+        gp.keyH.enterPressed = false;
 
     }
 

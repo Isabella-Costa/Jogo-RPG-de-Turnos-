@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Sistema:
     TileManager tileM = new TileManager(this);
-    Movimentacao keyH = new Movimentacao(this);
+    public Movimentacao keyH = new Movimentacao(this);
     //Sound sound = new Sound();
     public ColisaoCheck cCheck = new ColisaoCheck(this); 
     public ConfiguracaoDeObjetos aSetter = new ConfiguracaoDeObjetos(this);
@@ -48,6 +48,7 @@ public class GamePanel extends JPanel implements Runnable{
     public int gameState;
     public final int playState = 1;
     public final int pauseState = 2;
+    public final int dialogoState = 3;
     //public final int menuState = 0;
 
     public GamePanel(){
