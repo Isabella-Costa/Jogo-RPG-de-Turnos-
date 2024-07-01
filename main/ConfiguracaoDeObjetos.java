@@ -1,5 +1,6 @@
 package main;
 
+import entity.NPC_Mago;
 import objeto.*;
 
 public class ConfiguracaoDeObjetos {
@@ -13,7 +14,7 @@ public class ConfiguracaoDeObjetos {
 
     
     public void setObjeto(){
-        gp.obj[0] = new OBJ_Chave(gp);
+       /*  gp.obj[0] = new OBJ_Chave(gp);
         gp.obj[0].worldX = 23 * gp.tileSize;
         gp.obj[0].worldY = 9 * gp.tileSize;
 
@@ -45,5 +46,12 @@ public class ConfiguracaoDeObjetos {
         gp.obj[7].worldX = 39 * gp.tileSize;
         gp.obj[7].worldY = 7 * gp.tileSize;
 
+    }*/
+}
+
+    public void setNPC(){
+        gp.npc[0] = new NPC_Mago(gp);
+        gp.npc[0].worldX = 21 * gp.tileSize;
+        gp.npc[0].worldY = 21 * gp.tileSize;
     }
 }

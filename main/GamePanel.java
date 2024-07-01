@@ -41,6 +41,7 @@ public class GamePanel extends JPanel implements Runnable{
     //Entity e Objetos
     public Player player = new Player(this, keyH); 
     public SuperObjeto obj[] = new SuperObjeto[10]; //quantidade de objetos no jogo
+    public Entity npc[] = new Entity[10];
     
 
     //Estado do jogo
@@ -61,6 +62,7 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void setupGame(){
         aSetter.setObjeto();
+        aSetter.setNPC();
         gameState = playState;
     }
     
@@ -102,7 +104,14 @@ public class GamePanel extends JPanel implements Runnable{
 
     public void update(){
         if(gameState == playState){
+            //Player
            player.update();
+           //NPC
+           for (int i = 0; i < npc.length; i++) {
+             if(npc[i] != null){
+                npc[i].update();
+             }
+           }
         }
         if(gameState == pauseState){
             //
@@ -125,6 +134,13 @@ public class GamePanel extends JPanel implements Runnable{
         for ( int i = 0; i < obj.length; i++){
             if(obj[i] != null){
                 obj[i].draw(g2, this);
+            }
+        }
+
+        //NPC
+        for ( int i = 0; i < npc.length; i++){
+            if(npc[i] != null){
+                npc[i].draw(g2);
             }
         }
         //User Interface
