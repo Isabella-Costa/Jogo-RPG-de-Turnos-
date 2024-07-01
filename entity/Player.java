@@ -11,7 +11,6 @@ import main.*;
 
 public class Player extends Entity {
     
-    GamePanel gp;
     Movimentacao keyH;
     public int temChave = 0;
 
@@ -21,7 +20,7 @@ public class Player extends Entity {
     BufferedImage subida1, subida2, descida1, descida2, esquerda1, esquerda2, direita1, direita2;
 
     public Player(GamePanel gp, Movimentacao keyH) {
-        this.gp = gp;
+        super(gp);
         this.keyH = keyH;
 
         screenX = gp.screenWidth / 2  - (gp.tileSize/2);
@@ -42,29 +41,14 @@ public class Player extends Entity {
     }
 
     public void getPlayerImage() {
-        subida1 = setup("playerSubida1");
-        subida2 = setup("playerSubida2");
-        descida1 = setup("playerDescida1");
-        descida2 = setup("playerDescida2");
-        esquerda1 = setup("playerEsquerda1");
-        esquerda2 = setup("playerEsquerda2");
-        direita1 = setup("playerDireita2");
-        direita2 = setup("playerDireita1");
-    }
-
-    public BufferedImage setup(String imageName){
-         
-        UtilsFerramentas utilsF = new UtilsFerramentas();
-        BufferedImage image = null;
-
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/player/" +imageName +".png"));
-            image = utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
-            
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return image;
+        subida1 = setup("/player/playerSubida1");
+        subida2 = setup("/player/playerSubida2");
+        descida1 = setup("/player/playerDescida1");
+        descida2 = setup("/player/playerDescida2");
+        esquerda1 = setup("/player/playerEsquerda1");
+        esquerda2 = setup("/player/playerEsquerda2");
+        direita1 = setup("/player/playerDireita2");
+        direita2 = setup("/player/playerDireita1");
     }
 
     public void update() {

@@ -2,10 +2,8 @@ package tile;
 
 import main.GamePanel;
 import main.UtilsFerramentas;
-import main.UtilsFerramentas;
 
 import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;

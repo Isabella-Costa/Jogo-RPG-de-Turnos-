@@ -31,7 +31,7 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Sistema:
     TileManager tileM = new TileManager(this);
-    Movimentacao keyH = new Movimentacao();
+    Movimentacao keyH = new Movimentacao(this);
     //Sound sound = new Sound();
     public ColisaoCheck cCheck = new ColisaoCheck(this); 
     public ConfiguracaoDeObjetos aSetter = new ConfiguracaoDeObjetos(this);
@@ -44,7 +44,9 @@ public class GamePanel extends JPanel implements Runnable{
     
 
     //Estado do jogo
-    //public int gameState;
+    public int gameState;
+    public final int playState = 1;
+    public final int pauseState = 2;
     //public final int menuState = 0;
 
     public GamePanel(){
@@ -59,6 +61,7 @@ public class GamePanel extends JPanel implements Runnable{
     
     public void setupGame(){
         aSetter.setObjeto();
+        gameState = playState;
     }
     
     public void startGameThread(){
@@ -98,7 +101,12 @@ public class GamePanel extends JPanel implements Runnable{
     }
 
     public void update(){
-        player.update();
+        if(gameState == playState){
+           player.update();
+        }
+        if(gameState == pauseState){
+            //
+        }
 
     }
 
