@@ -15,9 +15,9 @@ public class OBJ_Vida extends SuperObjeto{
             image = ImageIO.read(getClass().getResourceAsStream("/resources/objetos/coracaoCompleto.png"));
             image2 = ImageIO.read(getClass().getResourceAsStream("/resources/objetos/coracaoMetate.png"));
             image3= ImageIO.read(getClass().getResourceAsStream("/resources/objetos/coracaoVazio.png"));
-            utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
-            utilsF.scaleImage(image2, gp.tileSize, gp.tileSize);
-            utilsF.scaleImage(image3, gp.tileSize, gp.tileSize);
+            image = utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
+            image2 = utilsF.scaleImage(image2, gp.tileSize, gp.tileSize);
+            image3 = utilsF.scaleImage(image3, gp.tileSize, gp.tileSize);
             
         } catch (IOException e) {
               e.printStackTrace();

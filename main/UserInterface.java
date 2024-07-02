@@ -6,6 +6,10 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+
+import objeto.OBJ_Vida;
+import objeto.SuperObjeto;
 
 
 
@@ -15,14 +19,14 @@ public class UserInterface {
     Graphics2D g2;
     Font fonte15, fonte20, fonte30 ,fonte40, fonte80;
     Font fonteTitulo;
-    //BufferedImage chaveImagem;
+    BufferedImage coracaoFull, coracaoHalf, coracaoVazio;
     public boolean messageOn = false;
     public String message = "";
     public boolean fimDeJogo = false;
     public String currentDialogo = "";
     Image logo;
     public int menuNum = 0;
-    public int telaScreenState = 0; // 0 - primeira tela, 1 - segunda tela..
+    public int telaScreenState = 0; // 0 - primeira tela, 1 - segunda tela..  -- 2 - batalha 
     //private int contadorMessage = 0;
 
     public UserInterface(GamePanel gp) {
@@ -35,8 +39,12 @@ public class UserInterface {
 
         logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resources/menu/logo.png"));
 
-        //OBJ_Chave chave = new OBJ_Chave(gp);
-        //chaveImagem = chave.image;
+        // Cria obj Saude
+        SuperObjeto coracao = new OBJ_Vida(gp);
+        coracaoFull = coracao.image;
+        coracaoHalf = coracao.image2;
+        coracaoVazio = coracao.image3;
+
     }
 
     public void showMessage(String texto){
@@ -58,19 +66,44 @@ public class UserInterface {
         
         // Play State
         if(gp.gameState == gp.playState){
-            //fzr as coisas dos jogadores mais tarde
+            drawPlayerLife();
         }
         // Pause State
         if(gp.gameState == gp.pauseState){
+            drawPlayerLife();
             drawTelaDePause();
         }
 
         // Dialogo State
         if(gp.gameState == gp.dialogoState){
+            drawPlayerLife();
             drawTelaDeDialogo();
         }
     
 
+    }
+    public void drawPlayerLife(){
+
+        int x = gp.tileSize/2;
+        int y = gp.tileSize/2;
+        int i = 0;
+        
+        //Desenha Vida max
+        while(i < gp.player.maxLife/2){
+            g2.drawImage(coracaoFull, x, y, null);
+            i++;
+            x+=gp.tileSize;
+        }
+
+        //Reset 
+        x = gp.tileSize/2;
+        y = gp.tileSize/2;
+        i = 0;
+
+        while (fimDeJogo) {
+            
+        }
+        
     }
 
     public void drawMenuScreen(){
