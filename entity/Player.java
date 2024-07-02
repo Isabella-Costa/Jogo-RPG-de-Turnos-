@@ -38,6 +38,11 @@ public class Player extends Entity {
         worldY = gp.tileSize * 21;
         speed = 4;
         direction = "direita";
+
+        //Player life
+        maxLife = 6;
+        life = maxLife;
+
     }
 
     public void getPlayerImage() {
@@ -109,6 +114,26 @@ public class Player extends Entity {
     public void pegarObjeto(int i){
         
         if ( i != 999){
+
+            String objetoName = gp.obj[i].name;
+
+            switch (objetoName) {
+                case "Chave":
+                    temChave++;
+                    gp.obj[i] = null;
+                    break;
+                case "Porta":
+                    if(temChave>0){
+                        gp.obj[i] = null;
+                        temChave++;
+
+                    }
+                    break;
+                case "Raio":
+                    speed +=1;
+                    gp.obj[i] = null;
+                    break;
+            }
 
             }
 

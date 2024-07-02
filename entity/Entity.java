@@ -26,6 +26,10 @@ public class Entity {
     String dialogos[] = new String[50]; // variedade de diálogo melhorar dps
     int dialogosIndex = 0;
 
+    //Status Vida
+    public int maxLife;
+    public int life;
+
 
     public Entity(GamePanel gp) {
         this.gp = gp;

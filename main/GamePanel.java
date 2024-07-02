@@ -27,7 +27,7 @@ public class GamePanel extends JPanel implements Runnable{
     //FPS (Frame Per Second)
     int FPS = 60;
     
-    //Instaciações
+    //      Instaciações
 
     //Sistema:
     TileManager tileM = new TileManager(this);
@@ -46,15 +46,16 @@ public class GamePanel extends JPanel implements Runnable{
 
     //Estado do jogo
     public int gameState;
+    public final int menuState = 0;
     public final int playState = 1;
     public final int pauseState = 2;
     public final int dialogoState = 3;
-    //public final int menuState = 0;
+
 
     public GamePanel(){
 
         this.setPreferredSize(new Dimension (screenWidth,screenHeigth));
-        this.setBackground(Color.DARK_GRAY);
+        this.setBackground(Color.BLACK);
         this.setDoubleBuffered(true);
         this.addKeyListener(keyH);
         this.setFocusable(true);
@@ -64,7 +65,7 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         aSetter.setObjeto();
         aSetter.setNPC();
-        gameState = playState;
+        gameState = menuState;
     }
     
     public void startGameThread(){
@@ -124,29 +125,37 @@ public class GamePanel extends JPanel implements Runnable{
         super.paintComponent(g);
 
         Graphics2D g2 = (Graphics2D)g;
-        
-        //Tile
-        tileM.draw(g2);
 
-        //Player
-        player.draw(g2);
+        // Título Inicial
+        if(gameState == menuState){
+            ui.draw(g2);
 
-        //Objeto
-        for ( int i = 0; i < obj.length; i++){
-            if(obj[i] != null){
-                obj[i].draw(g2, this);
-            }
         }
+        //Outros
+        else {
+            //Tile
+            tileM.draw(g2);
 
-        //NPC
-        for ( int i = 0; i < npc.length; i++){
-            if(npc[i] != null){
-                npc[i].draw(g2);
+            //Player
+            player.draw(g2);
+
+            //Objeto
+            for ( int i = 0; i < obj.length; i++){
+                if(obj[i] != null){
+                    obj[i].draw(g2, this);
+                }
             }
-        }
-        //User Interface
-        ui.draw(g2);
 
+            //NPC
+            for ( int i = 0; i < npc.length; i++){
+                if(npc[i] != null){
+                    npc[i].draw(g2);
+                }
+            }
+            //User Interface
+            ui.draw(g2);
+
+            }
 
 
         g2.dispose();

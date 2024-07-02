@@ -20,6 +20,70 @@ public class Movimentacao implements KeyListener {
     public void keyPressed(KeyEvent e){
         int code = e.getKeyCode();
 
+        //Menu State
+        if(gp.gameState == gp.menuState){
+
+            if(gp.ui.telaScreenState == 0){
+                if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
+                    gp.ui.menuNum--;
+                    if (gp.ui.menuNum < 0){
+                        gp.ui.menuNum = 2;
+                    }
+                }
+      
+                if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
+                    gp.ui.menuNum++;
+                    if (gp.ui.menuNum >  3){
+                        gp.ui.menuNum = 0;
+                    }
+                }
+                
+                if (code == KeyEvent.VK_ENTER){
+                     if(gp.ui.menuNum == 0){
+                       gp.ui.telaScreenState = 1;
+                     } 
+                     else if(gp.ui.menuNum == 1){
+                        //fazer dps
+                     }
+                     else if(gp.ui.menuNum == 2){
+                        //fazer dps uma tela contando a história e ensinando como jogar
+                      }
+                     else if(gp.ui.menuNum == 3){
+                        System.exit(0);
+                     }
+
+                }
+            }
+            else if(gp.ui.telaScreenState == 1){
+                if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
+                    gp.ui.menuNum--;
+                    if (gp.ui.menuNum < 0){
+                        gp.ui.menuNum = 2;
+                    }
+                }
+      
+                if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
+                    gp.ui.menuNum++;
+                    if (gp.ui.menuNum >  2){
+                        gp.ui.menuNum = 0;
+                    }
+                }
+                
+                if (code == KeyEvent.VK_ENTER){
+                     if(gp.ui.menuNum == 0){
+                       gp.gameState = gp.playState;
+                     } 
+                     else if(gp.ui.menuNum == 1){
+                        gp.gameState = gp.playState;  //Mudar o personagem dps
+                     }
+                     else if(gp.ui.menuNum == 2){
+                        gp.ui.telaScreenState = 0;
+                     }
+
+                }
+            }
+        }
+
         //Play State
         if (gp.gameState == gp.playState){
           if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){

@@ -9,7 +9,7 @@ import main.UtilsFerramentas;
 
 public class SuperObjeto {
     
-    public BufferedImage image;
+    public BufferedImage image, image2, image3;
     public String name; 
     public boolean colisao = false;
     public int worldX, worldY;
