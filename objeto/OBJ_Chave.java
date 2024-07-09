@@ -1,26 +1,16 @@
 package objeto;
 
-import java.io.IOException;
 
-import javax.imageio.ImageIO;
-
+import entity.*;
 import main.GamePanel;
 
-public class OBJ_Chave extends SuperObjeto{
+public class OBJ_Chave extends Entity{
     GamePanel gp;
     
     public OBJ_Chave(GamePanel gp){
-        this.gp = gp;
+        super(gp);
         
         name = "Chave";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/objetos/chave.png"));
-            utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
-            
-        } catch (IOException e) {
-              e.printStackTrace();
-        }
-
-        solidArea.x = 5;
+        descida1 = setup("objetos/chave");
     }
 }

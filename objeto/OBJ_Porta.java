@@ -1,25 +1,22 @@
 package objeto;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
-
+import entity.*;
 import main.GamePanel;
 
-public class OBJ_Porta extends SuperObjeto {
+public class OBJ_Porta extends Entity{
     GamePanel gp;
-
+    
     public OBJ_Porta(GamePanel gp){
-        this.gp = gp;
-        
+        super(gp);
         name = "Porta";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/objetos/porta.png"));
-            utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
-            
-        } catch (IOException e) {
-              e.printStackTrace();
-        }
-
+        descida1 = setup("objetos/porta");
         colisao = true;
+
+        solidArea.x = 0;
+        solidArea.y = 16;
+        solidArea.width = 48;
+        solidArea.height = 32;
+        solidAreaDefaultX = solidArea.x;
+        solidAreaDefaultY = solidArea.y;
     }
 }

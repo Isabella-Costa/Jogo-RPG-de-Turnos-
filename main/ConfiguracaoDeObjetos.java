@@ -53,5 +53,15 @@ public class ConfiguracaoDeObjetos {
         gp.npc[0] = new NPC_Mago(gp);
         gp.npc[0].worldX = 21 * gp.tileSize;
         gp.npc[0].worldY = 21 * gp.tileSize;
+
+        gp.npc[1] = new NPC_Mago(gp);
+        gp.npc[1].worldX = 11 * gp.tileSize;
+        gp.npc[1].worldY = 21 * gp.tileSize;
+
+        gp.npc[2] = new NPC_Mago(gp);
+        gp.npc[2].worldX = 21 * gp.tileSize;
+        gp.npc[2].worldY = 31 * gp.tileSize;
+
+
     }
 }

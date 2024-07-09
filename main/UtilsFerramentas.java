@@ -4,16 +4,12 @@ import java.awt.image.BufferedImage;
 import java.awt.Graphics2D;
 
 public class UtilsFerramentas {
-    
-    public BufferedImage scaleImage(BufferedImage original, int largura, int altura ){
 
-
-        BufferedImage scaleImage = new BufferedImage(largura, altura, original.getType());
-        Graphics2D g2 = (Graphics2D) scaleImage.createGraphics();
-        g2.drawImage(original,0, 0, largura, altura, null);
+    public BufferedImage scaleImage(BufferedImage originalImage, int width, int height) {
+        BufferedImage scaledImage = new BufferedImage(width, height, originalImage.getType());
+        Graphics2D g2 = scaledImage.createGraphics();
+        g2.drawImage(originalImage, 0, 0, width, height, null);
         g2.dispose();
-
-        return scaleImage;
-
+        return scaledImage;
     }
 }

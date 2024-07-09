@@ -9,7 +9,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import objeto.OBJ_Vida;
-import objeto.SuperObjeto;
+import entity.*;
 
 
 
@@ -19,7 +19,7 @@ public class UserInterface {
     Graphics2D g2;
     Font fonte15, fonte20, fonte30 ,fonte40, fonte80;
     Font fonteTitulo;
-    BufferedImage coracaoFull, coracaoHalf, coracaoVazio;
+    BufferedImage coracaoFull, coracaoMetade, coracaoVazio;
     public boolean messageOn = false;
     public String message = "";
     public boolean fimDeJogo = false;
@@ -40,9 +40,9 @@ public class UserInterface {
         logo = Toolkit.getDefaultToolkit().getImage(getClass().getResource("/resources/menu/logo.png"));
 
         // Cria obj Saude
-        SuperObjeto coracao = new OBJ_Vida(gp);
+        Entity coracao = new OBJ_Vida(gp);
         coracaoFull = coracao.image;
-        coracaoHalf = coracao.image2;
+        coracaoMetade = coracao.image2;
         coracaoVazio = coracao.image3;
 
     }
@@ -88,22 +88,32 @@ public class UserInterface {
         int y = gp.tileSize/2;
         int i = 0;
         
-        //Desenha Vida max
+        //Desenha  Vida Max
         while(i < gp.player.maxLife/2){
-            g2.drawImage(coracaoFull, x, y, null);
+            g2.drawImage(coracaoVazio, x, y, null);
             i++;
             x+=gp.tileSize;
         }
 
-        //Reset 
+
+        //Reset
         x = gp.tileSize/2;
         y = gp.tileSize/2;
         i = 0;
 
-        while (fimDeJogo) {
-            
+        //Desenha vida atual
+        while(i < gp.player.life){
+            g2.drawImage(coracaoMetade, x, y, null);
+            i++;
+            if(i < gp.player.life){
+                g2.drawImage(coracaoFull, x, y, null);
+            }
+            i++;
+            x+=gp.tileSize;
         }
-        
+
+
+
     }
 
     public void drawMenuScreen(){
@@ -135,7 +145,7 @@ public class UserInterface {
             //Menu
             g2.setFont(fonte20);
     
-            texto = "|      Jogar      |";
+            texto = "|           Jogar           |";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize *3;
             g2.drawString(texto, x, y);
@@ -143,7 +153,7 @@ public class UserInterface {
                 g2.drawString(">", x - gp.tileSize, y);
             }
     
-            texto = "|  Carregar Jogo  |";
+            texto = "|   Carregar Jogo   |";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
@@ -151,7 +161,7 @@ public class UserInterface {
                 g2.drawString(">", x - gp.tileSize, y);
             }
     
-            texto = "|     História do Jogo    |";
+            texto = "| História do Jogo |";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
@@ -159,7 +169,7 @@ public class UserInterface {
                 g2.drawString(">", x - gp.tileSize, y);
             }
     
-            texto = "|     Sair    |";
+            texto = "|             Sair            |";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
@@ -206,11 +216,7 @@ public class UserInterface {
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
-
         }
-
-
-
         
     }
     

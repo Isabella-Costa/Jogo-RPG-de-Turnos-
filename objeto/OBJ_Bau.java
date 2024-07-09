@@ -1,23 +1,15 @@
 package objeto;
 
-import java.io.IOException;
-import javax.imageio.ImageIO;
+import entity.*;
 import main.GamePanel;
 
-
-public class OBJ_Bau extends SuperObjeto{
+public class OBJ_Bau extends Entity{
     GamePanel gp;
     
     public OBJ_Bau(GamePanel gp){
-        this.gp = gp;
-        
+        super(gp);
+
         name = "Bau";
-        try {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/objetos/bau.png"));
-            utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
-            
-        } catch (IOException e) {
-              e.printStackTrace();
-        }
+        descida1 = setup("objetos/bau");
     }
 }

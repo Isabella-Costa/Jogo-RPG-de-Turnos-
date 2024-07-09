@@ -2,9 +2,7 @@ package entity;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
-
 import javax.imageio.ImageIO;
-
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import main.*;;
@@ -16,7 +14,7 @@ public class Entity {
     public int worldY;
     public int speed;
     public BufferedImage subida1, subida2, descida1, descida2, esquerda1, esquerda2, direita1, direita2;
-    public String direction;
+    public String direction = "descida";
     public int spriteCounter = 0;
     public int spriteNum = 1;
     public Rectangle solidArea = new Rectangle(0, 0, 48, 48);
@@ -25,6 +23,10 @@ public class Entity {
     public int bloqueioDeAcaoContador =0;
     String dialogos[] = new String[50]; // variedade de diálogo melhorar dps
     int dialogosIndex = 0;
+
+    public BufferedImage image, image2, image3;
+    public String name; 
+    public boolean colisao = false;
 
     //Status Vida
     public int maxLife;
@@ -144,15 +146,13 @@ public class Entity {
     
     }
     
-    public BufferedImage setup(String imagePath){
-         
+    public BufferedImage setup(String imagePath) {
         UtilsFerramentas utilsF = new UtilsFerramentas();
         BufferedImage image = null;
 
         try {
-            image = ImageIO.read(getClass().getResourceAsStream("/resources/" +imagePath +".png"));
+            image = ImageIO.read(getClass().getResourceAsStream("/resources/" + imagePath + ".png"));
             image = utilsF.scaleImage(image, gp.tileSize, gp.tileSize);
-            
         } catch (IOException e) {
             e.printStackTrace();
         }

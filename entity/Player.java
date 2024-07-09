@@ -3,8 +3,6 @@ package entity;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.io.IOException;
-import javax.imageio.ImageIO;
 
 import main.*;
 
@@ -39,7 +37,7 @@ public class Player extends Entity {
         speed = 4;
         direction = "direita";
 
-        //Player life
+        //Player VIDA
         maxLife = 6;
         life = maxLife;
 
@@ -84,6 +82,11 @@ public class Player extends Entity {
             //Check colisão NPC
             int npcIndex = gp.cCheck.checkEntity(this, gp.npc);
             interacaoNPC(npcIndex);
+
+            //Check Evento
+            gp.eManipuladorDeEventos.checkEvent();
+            gp.keyH.enterPressed = false;
+
 
 
             //Se colisão for false, player consegue mover
@@ -148,7 +151,6 @@ public class Player extends Entity {
             }
 
         }
-        gp.keyH.enterPressed = false;
 
     }
 
