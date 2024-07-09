@@ -1,2 +1,2 @@
-# Jogo-RPG-de-Turnos-
+# Jogo RPG de Turnos
 Guardiões das Lendas Antigas
