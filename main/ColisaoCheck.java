@@ -144,35 +144,23 @@ public class ColisaoCheck {
                 alvo[i].solidArea.y = alvo[i].worldY + alvo[i].solidArea.y;
 
                 switch (entity.direction) {
-                    case "subida":
-                        entity.solidArea.y -= entity.speed;
-                        if(entity.solidArea.intersects(alvo[i].solidArea)){ //Checa se os dois "retângulos" se inteceptam
-                            entity.colisaoOn = true;
-                            index = i;
+                    case "subida":  entity.solidArea.y -= entity.speed;
                         break;
-                    }
-                    case "descida":
-                        entity.solidArea.y += entity.speed;
-                        if(entity.solidArea.intersects(alvo[i].solidArea)){ 
-                            entity.colisaoOn = true;
-                            index = i;
-                        }
+                    case "descida": entity.solidArea.y += entity.speed;
                         break;
-                    case "esquerda":
-                        entity.solidArea.x -= entity.speed;
-                        if(entity.solidArea.intersects(alvo[i].solidArea)){ 
-                            entity.colisaoOn = true;
-                            index = i;
-                        }
+                    case "esquerda":  entity.solidArea.x -= entity.speed;
                         break;
-                    case "direita":
-                        entity.solidArea.x += entity.speed;
-                        if(entity.solidArea.intersects(alvo[i].solidArea)){ 
-                            entity.colisaoOn = true;
-                            index = i;
-                        }
+                    case "direita": entity.solidArea.x += entity.speed;
                         break;
                 } 
+
+                if(entity.solidArea.intersects(alvo[i].solidArea)){ 
+                    if(alvo[i] != entity){
+                        entity.colisaoOn = true;
+                        index = i;
+                    }
+                }
+
                 entity.solidArea.x = entity.solidAreaDefaultX;
                 entity.solidArea.y = entity.solidAreaDefaultY;
                 alvo[i].solidArea.x = alvo[i].solidAreaDefaultX;
@@ -183,46 +171,41 @@ public class ColisaoCheck {
         
     }
 
-    public void checkPlayer (Entity entity){
+    public boolean checkPlayer (Entity entity){
 
-            //obtem a posição da área sólida da entidade
-            entity.solidArea.x = entity.worldX + entity.solidArea.x;
-            entity.solidArea.y = entity.worldY + entity.solidArea.y;
+        boolean contatoPlayer = false;
 
-            //obter a posição da área sólida do alvo
-            gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
-            gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+        //obtem a posição da área sólida da entidade
+        entity.solidArea.x = entity.worldX + entity.solidArea.x;
+        entity.solidArea.y = entity.worldY + entity.solidArea.y;
 
-            switch (entity.direction) {
-                case "subida":
-                    entity.solidArea.y -= entity.speed;
-                    if(entity.solidArea.intersects(gp.player.solidArea)){ //Checa se os dois "retângulos" se inteceptam
-                        entity.colisaoOn = true;
-                    break;
-                }
-                case "descida":
-                    entity.solidArea.y += entity.speed;
-                    if(entity.solidArea.intersects(gp.player.solidArea)){ 
-                        entity.colisaoOn = true;
-                    }
-                    break;
-                case "esquerda":
-                    entity.solidArea.x -= entity.speed;
-                    if(entity.solidArea.intersects(gp.player.solidArea)){ 
-                        entity.colisaoOn = true;
-                    }
-                    break;
-                case "direita":
-                    entity.solidArea.x += entity.speed;
-                    if(entity.solidArea.intersects(gp.player.solidArea)){ 
-                        entity.colisaoOn = true;
-                    }
-                    break;
-            } 
-            entity.solidArea.x = entity.solidAreaDefaultX;
-            entity.solidArea.y = entity.solidAreaDefaultY;
-            gp.player.solidArea.x = gp.player.solidAreaDefaultX;
-            gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+        //obter a posição da área sólida do alvo
+        gp.player.solidArea.x = gp.player.worldX + gp.player.solidArea.x;
+        gp.player.solidArea.y = gp.player.worldY + gp.player.solidArea.y;
+
+        switch (entity.direction) {
+            case "subida": entity.solidArea.y -= entity.speed;
+                break;
+            
+            case "descida": entity.solidArea.y += entity.speed;
+                break;
+            case "esquerda": entity.solidArea.x -= entity.speed;
+                break;
+            case "direita": entity.solidArea.x += entity.speed;
+                break;
+        } 
+        if(entity.solidArea.intersects(gp.player.solidArea)){ 
+            entity.colisaoOn = true;
+            contatoPlayer = true;
+        }
+
+        
+        entity.solidArea.x = entity.solidAreaDefaultX;
+        entity.solidArea.y = entity.solidAreaDefaultY;
+        gp.player.solidArea.x = gp.player.solidAreaDefaultX;
+        gp.player.solidArea.y = gp.player.solidAreaDefaultY;
+
+        return contatoPlayer;
 
     }
 

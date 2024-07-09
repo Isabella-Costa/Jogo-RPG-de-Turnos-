@@ -47,6 +47,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Player player = new Player(this, keyH); 
     public Entity obj[] = new Entity[10]; //quantidade de objetos no jogo
     public Entity npc[] = new Entity[10];
+    public Entity monster[] = new Entity[20];
     ArrayList<Entity> entityList = new ArrayList<>();
     
 
@@ -71,6 +72,8 @@ public class GamePanel extends JPanel implements Runnable{
     public void setupGame(){
         aSetter.setObjeto();
         aSetter.setNPC();
+        aSetter.setMontro();
+
         gameState = menuState;
     }
     
@@ -120,6 +123,13 @@ public class GamePanel extends JPanel implements Runnable{
                 npc[i].update();
              }
            }
+           //Monstro
+           for (int i = 0; i < monster.length; i++) {
+            if(monster[i] != null){
+               monster[i].update();
+            }
+          }
+
         }
         if(gameState == pauseState){
             //
@@ -142,7 +152,7 @@ public class GamePanel extends JPanel implements Runnable{
             //Tile
             tileM.draw(g2);
 
-            // Add os entitiex na lista
+            // Add os Entities na lista
             entityList.clear();
 
             entityList.add(player);
@@ -159,6 +169,13 @@ public class GamePanel extends JPanel implements Runnable{
                 }
                 
             }
+            for (int i = 0; i < monster.length; i++) {
+                if(monster[i] != null){
+                    entityList.add(monster[i]);
+                }
+                
+            }
+
 
             //Ordenação
             Collections.sort(entityList, new Comparator<Entity>() {
@@ -178,9 +195,6 @@ public class GamePanel extends JPanel implements Runnable{
             for (int i = 0; i<entityList.size(); i++) {
                 entityList.remove(i); 
             }
-
-
-
 
             //User Interface
             ui.draw(g2);

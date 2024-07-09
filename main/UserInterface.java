@@ -223,8 +223,8 @@ public class UserInterface {
 
     public void drawTelaDePause(){
 
-        g2.setFont(fonte80);
-        g2.setColor(Color.LIGHT_GRAY);
+        g2.setFont(fonte40);
+        g2.setColor(Color.WHITE);
         String texto = "PAUSED";
         int x = getXparaCentralizarTexto(texto);
         int y = gp.screenHeigth/2;

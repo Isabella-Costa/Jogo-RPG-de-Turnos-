@@ -21,12 +21,14 @@ public class Entity {
     public int solidAreaDefaultX, solidAreaDefaultY;
     public boolean colisaoOn = false;
     public int bloqueioDeAcaoContador =0;
+    public boolean invencibilidade = false;
+    public int invencibilidadeContador = 0;
     String dialogos[] = new String[50]; // variedade de diálogo melhorar dps
     int dialogosIndex = 0;
-
     public BufferedImage image, image2, image3;
     public String name; 
     public boolean colisao = false;
+    public int tipo;       // 0 - player, 1 - npc,   2 - monstro
 
     //Status Vida
     public int maxLife;
@@ -72,7 +74,18 @@ public class Entity {
 
         colisaoOn = false;
         gp.cCheck.checkTile(this);
-        gp.cCheck.checkPlayer(this);
+        gp.cCheck.checkObjeto(this, false);
+        gp.cCheck.checkEntity(this, gp.npc);
+        gp.cCheck.checkEntity(this, gp.monster);
+        boolean contatoPlayer = gp.cCheck.checkPlayer(this);
+
+        if(this.tipo == 2 && contatoPlayer == true){
+            if(gp.player.invencibilidade == false){
+                //Podemos causar danos
+                gp.player.life -= 1;
+                gp.player.invencibilidade = true;
+            }
+        }
 
         if(!colisaoOn){
                 

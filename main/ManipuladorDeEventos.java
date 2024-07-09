@@ -31,6 +31,7 @@ public class ManipuladorDeEventos {
         if (hit(30, 21, "direita")) {
             danoPoco(gp.dialogoState);
         }
+        
         if (hit(2, 13, "esquerda")) {
             fonteDECura(gp.dialogoState);
         }
