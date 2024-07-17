@@ -30,9 +30,13 @@ public class Entity {
     public boolean colisao = false;
     public int tipo;       // 0 - player, 1 - npc,   2 - monstro
 
+     
+
     //Status Vida
     public int maxLife;
     public int life;
+    public int level;
+    
 
 
     public Entity(GamePanel gp) {
