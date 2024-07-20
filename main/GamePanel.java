@@ -1,9 +1,8 @@
 package main;
 
 import entity.*;
-import tile.Tile;
 import tile.TileManager;
-import objeto.*;
+
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -126,7 +125,12 @@ public class GamePanel extends JPanel implements Runnable{
            //Monstro
            for (int i = 0; i < monster.length; i++) {
             if(monster[i] != null){
-               monster[i].update();
+                if(monster[i].vivo == true && monster[i].morrendo == false){
+                    monster[i].update();
+                }
+                if(monster[i].vivo == false){
+                    monster[i] = null;
+                }
             }
           }
 

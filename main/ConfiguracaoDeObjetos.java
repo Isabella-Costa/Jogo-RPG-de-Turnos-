@@ -68,8 +68,8 @@ public class ConfiguracaoDeObjetos {
 
     public void setMontro(){
         gp.monster[0] = new Monstro(gp);
-        gp.monster[0].worldX = 35 * gp.tileSize;
-        gp.monster[0].worldY = 9 * gp.tileSize;
+        gp.monster[0].worldX = 23 * gp.tileSize;
+        gp.monster[0].worldY = 42* gp.tileSize;
 
         gp.monster[1] = new Monstro(gp);
         gp.monster[1].worldX = 22 * gp.tileSize;

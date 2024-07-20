@@ -6,9 +6,11 @@ import entity.Entity;
 import main.GamePanel;
 
 public class Monstro extends Entity{
+    GamePanel gp;
 
     public Monstro(GamePanel gp){
         super(gp);
+        this.gp = gp;
 
         tipo = 2;
         name = "Esqueleto Monstro";
@@ -27,14 +29,14 @@ public class Monstro extends Entity{
     }
 
     public void getImage(){
-        subida1 = setup("/monstro/monstro");
-        subida2 = setup("/monstro/monstro");
-        descida1 = setup("/monstro/monstro");
-        descida2 = setup("/monstro/monstro");
-        esquerda1 = setup("/monstro/monstro");
-        esquerda2 = setup("/monstro/monstro");
-        direita1 = setup("/monstro/monstro");
-        direita2 = setup("/monstro/monstro");
+        subida1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        subida2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        descida1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        descida2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        esquerda1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        esquerda2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        direita1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        direita2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
         
 
     }
@@ -61,5 +63,11 @@ public class Monstro extends Entity{
 
           bloqueioDeAcaoContador = 0;
         }
+    }
+
+    public void danoReacao(){
+        bloqueioDeAcaoContador =0;
+        direction = gp.player.direction;
+
     }
 }

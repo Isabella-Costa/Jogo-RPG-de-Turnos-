@@ -11,6 +11,6 @@ public class OBJ_Chave extends Entity{
         super(gp);
         
         name = "Chave";
-        descida1 = setup("objetos/chave");
+        descida1 = setup("objetos/chave", gp.tileSize,gp.tileSize);
     }
 }

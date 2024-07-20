@@ -10,7 +10,7 @@ public class OBJ_Raio extends Entity{
         super(gp);
         
         name = "Raio";
-        descida1 = setup("objetos/raios");
+        descida1 = setup("objetos/raios", gp.tileSize,gp.tileSize);
     }
     
 }

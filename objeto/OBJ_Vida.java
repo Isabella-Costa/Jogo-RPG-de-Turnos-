@@ -9,9 +9,9 @@ public class OBJ_Vida extends Entity{
         super(gp);
 
         name = "Coracao";
-        image = setup("objetos/coracaoFull");
-        image2 = setup("objetos/coracaoMetade");
-        image3 = setup("objetos/coracaoVazio");
+        image = setup("objetos/coracaoFull", gp.tileSize,gp.tileSize);
+        image2 = setup("objetos/coracaoMetade", gp.tileSize,gp.tileSize);
+        image3 = setup("objetos/coracaoVazio", gp.tileSize,gp.tileSize);
 
     }
 }

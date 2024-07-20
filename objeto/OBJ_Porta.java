@@ -9,7 +9,7 @@ public class OBJ_Porta extends Entity{
     public OBJ_Porta(GamePanel gp){
         super(gp);
         name = "Porta";
-        descida1 = setup("objetos/porta");
+        descida1 = setup("objetos/porta", gp.tileSize,gp.tileSize);
         colisao = true;
 
         solidArea.x = 0;

@@ -10,6 +10,6 @@ public class OBJ_Bau extends Entity{
         super(gp);
 
         name = "Bau";
-        descida1 = setup("objetos/bau");
+        descida1 = setup("objetos/bau", gp.tileSize,gp.tileSize);
     }
 }
