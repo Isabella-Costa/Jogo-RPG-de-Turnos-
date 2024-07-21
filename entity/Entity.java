@@ -48,14 +48,26 @@ public class Entity {
     int morteCounter = 0;
     public int hpBarContador = 0;
 
-    //Caracteristicas Status
+    //Caracteristicas Atributos
     public int tipo;       // 0 - player, 1 - npc,   2 - monstro
     public int maxLife;
     public int life;
     public int level;
+    public int força; 
+    public int destreza; 
+    public int ataque;
+    public int defesa;
+    public int exp;
+    public int proxLevelExp;
+    public int coin;
+    public Entity currentbArma;
+    public Entity currentEscudo;
+
+    // ITEM Atributos 
+    public int ataqueValor;
+    public int defesaValor;
+
     
-
-
     public Entity(GamePanel gp) {
         this.gp = gp;
     }

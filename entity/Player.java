@@ -6,6 +6,8 @@ import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 
 import main.*;
+import objeto.OBJ_Escudo;
+import objeto.OBJ_Espada;
 
 
 public class Player extends Entity {
@@ -16,7 +18,9 @@ public class Player extends Entity {
     public final int screenX; 
     public final int screenY;
 
-    BufferedImage subida1, subida2, descida1, descida2, esquerda1, esquerda2, direita1, direita2;
+    public boolean ataqueCancelado = false;
+
+    
 
     public Player(GamePanel gp, Movimentacao keyH) {
         super(gp);
@@ -44,9 +48,27 @@ public class Player extends Entity {
         direction = "direita";
 
         //Player VIDA
+        level = 1;
         maxLife = 6;
         life = maxLife;
+        força = 1; // quanto mais força tem , mas dano ele causa
+        destreza =1; // quanto mais destreza tem , mas dano ele recebe
+        exp=0;
+        proxLevelExp = 5; // quanto de exp precisa
+        coin = 0;
+        currentbArma = new OBJ_Espada(gp);
+        currentEscudo = new OBJ_Escudo(gp);
+        ataque = getAtaque(); //O valor total do ataque é decidido pela força e arma
+        defesa = getDefesa();  // O valor total da defesa é descidido pela destreza e escudo 
 
+    }
+
+    public int getAtaque(){
+    return ataque = força * currentbArma.ataqueValor;
+    }
+    
+    public int getDefesa(){
+        return defesa = destreza * currentEscudo.defesaValor;
     }
 
     public void getPlayerImage() {
@@ -114,7 +136,14 @@ public class Player extends Entity {
                     case "direita": worldX += speed; break;
                 }
             }
-    
+
+            if(keyH.enterPressed == true && ataqueCancelado == false){
+                atacando = true;
+                spriteCounter = 0;
+            }
+
+            ataqueCancelado = false;
+
             keyH.enterPressed = false;
     
             spriteCounter++;
@@ -203,6 +232,7 @@ public class Player extends Entity {
     public void interacaoNPC(int i) {
         if (gp.keyH.enterPressed) {
             if (i != 999) {
+                ataqueCancelado = true;
                 gp.gameState = gp.dialogoState;
                 gp.npc[i].speak();
             } else {
