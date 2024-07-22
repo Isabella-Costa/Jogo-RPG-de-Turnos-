@@ -22,11 +22,13 @@ public class UserInterface {
     public String message = "";
     public boolean fimDeJogo = false;
     public String currentDialogo = "";
+    public int comandoNum =0;
     Image logo;
     public int menuNum = 0;
     public int telaScreenState = 0; // 0 - primeira tela /menu, 1 - escolhaP  -- 2 - mapa 3/batalha 
     public int slotColuna = 0;
     public int slotLargura = 0;
+    int subState = 0;
     //private int contadorMessage = 0;
 
     public UserInterface(GamePanel gp) {
@@ -75,6 +77,7 @@ public class UserInterface {
         if(gp.gameState == gp.pauseState){
             drawPlayerLife();
             drawTelaDePause();
+            drawOpcoesSceen();
         }
 
         // Dialogo State
@@ -117,6 +120,26 @@ public class UserInterface {
             i++;
             x+=gp.tileSize;
         }
+        // Desenha Max Mana
+        x = (gp.tileSize/2) - 5;
+        y = (int) (gp.tileSize*1.5);
+        i =0;
+        while(i < gp.player.maxMana){
+            g2.drawImage(cristalBranco, x, y, null);
+            i++;
+            x+= 35;
+        }
+
+        // Draw Mana
+        x = gp.tileSize/2 - 5;
+        y = (int) (gp.tileSize*1.5);
+        i =0;
+        while(i < gp.player.mana){
+            g2.drawImage(cristalFull, x, y, null);
+            i++;
+            x+= 35;
+        }
+
     }
 
     public void drawMenuScreen(){
@@ -170,6 +193,7 @@ public class UserInterface {
             g2.drawString(texto, x, y);
             if(menuNum == 2){
                 g2.drawString(">", x - gp.tileSize, y);
+            
             }
     
             texto = "|             Sair            |";
@@ -285,6 +309,8 @@ public class UserInterface {
         textY += alturaDaLinha;
         g2.drawString("Life", textX, textY);
         textY += alturaDaLinha;
+        g2.drawString("Mana", textX, textY);
+        textY += alturaDaLinha;
         g2.drawString("Força", textX, textY);
         textY += alturaDaLinha;
         g2.drawString("Destreza", textX, textY);
@@ -298,7 +324,7 @@ public class UserInterface {
         g2.drawString("Next Level", textX, textY);
         textY += alturaDaLinha;
         g2.drawString("Coin", textX, textY);
-        textY += alturaDaLinha + 20;
+        textY += alturaDaLinha + 10;
         g2.drawString("Arma", textX, textY);
         textY += alturaDaLinha + 15;
         g2.drawString("Escudo", textX, textY);
@@ -316,6 +342,11 @@ public class UserInterface {
         textY += alturaDaLinha;
 
         valor = String.valueOf(gp.player.life + "/" + gp.player.maxLife);
+        textX = getXparaAlinharTextoTexto(valor, tailX);
+        g2.drawString(valor, textX, textY);
+        textY += alturaDaLinha;
+
+        valor = String.valueOf(gp.player.mana + "/" + gp.player.maxMana);
         textX = getXparaAlinharTextoTexto(valor, tailX);
         g2.drawString(valor, textX, textY);
         textY += alturaDaLinha;
@@ -355,9 +386,9 @@ public class UserInterface {
         g2.drawString(valor, textX, textY);
         textY += alturaDaLinha;
 
-        g2.drawImage(gp.player.currentbArma.descida1, tailX - gp.tileSize, textY - 15, null);
+        g2.drawImage(gp.player.currentbArma.descida1, tailX - gp.tileSize, textY - 24, null);
         textY += gp.tileSize;
-        g2.drawImage(gp.player.currentEscudo.descida1, tailX - gp.tileSize, textY -15, null);
+        g2.drawImage(gp.player.currentEscudo.descida1, tailX - gp.tileSize, textY -24, null);
 
     }
 
@@ -438,7 +469,117 @@ public class UserInterface {
         return itemIndex;
     }
     
-    
+    public void drawOpcoesSceen(){
+        g2.setColor(Color.white);
+        g2.setFont(fonte20);
+
+        //SUB WINDOW
+        int frameX = gp.tileSize *6;
+        int frameY = gp.tileSize;
+        int frameLargura = gp.tileSize*8;
+        int frameAltura = gp.tileSize*10;
+
+        drawSubwindow(frameX, frameY, frameLargura, frameAltura);
+
+        switch (subState) {
+            case 0:
+                opcoesTopo(frameX, frameY);
+                break;
+            case 1:
+                opcoesControle(frameX, frameY);
+                break;
+            
+            
+        
+        }
+    } 
+
+    public void opcoesTopo(int frameX, int frameY){
+
+        int textX;
+        int textY;
+
+        textX = frameX + gp.tileSize;
+        textY = gp.tileSize*4;
+        g2.drawString("Controles", textX, textY);
+        if(comandoNum == 0){
+            g2.drawString(">", textX -25 , textY);
+            if(gp.keyH.enterPressed == true){
+                subState = 1;
+            }
+        }
+
+        textX = frameX + gp.tileSize;
+        textY += gp.tileSize;
+        g2.drawString("Mudar de Personagem", textX, textY);
+        if(comandoNum == 1){
+            g2.drawString(">", textX -25 , textY);
+            if(gp.keyH.enterPressed == true){
+                gp.gameState = gp.menuState;
+            }
+        }
+
+        textX = frameX + gp.tileSize;
+        textY += gp.tileSize;
+        g2.drawString("Sair do Jogo", textX, textY);
+        if(comandoNum == 2){
+            g2.drawString(">", textX -25 , textY);
+            if(gp.keyH.enterPressed == true){
+                System.exit(0);
+            }
+        }
+
+        textX = frameX + gp.tileSize;
+        textY += gp.tileSize;
+        g2.drawString("Voltar", textX, textY);
+        if(comandoNum == 3){
+            g2.drawString(">", textX -25 , textY);
+            if(gp.keyH.enterPressed == true){
+                gp.gameState = gp.playState;
+            }
+        }
+
+    }
+
+    public void opcoesControle(int frameX, int frameY){
+        int textX;
+        int textY;
+
+        //Titulo
+        String texto = "CONTROLE";
+        textX = getXparaCentralizarTexto(texto);
+        textY = frameY + gp.tileSize * 2;
+        g2.drawString(texto, textX, textY);
+
+        textX = frameX + gp.tileSize;
+        textY += gp.tileSize;
+        g2.drawString("Mover", textX, textY); textY += gp.tileSize;
+        g2.drawString("Confirma/Ataque", textX, textY); textY += gp.tileSize;
+        g2.drawString("Atirar/Lançar", textX, textY); textY += gp.tileSize;
+        g2.drawString("Personagem Screen", textX, textY); textY += gp.tileSize;
+        g2.drawString("Pause", textX, textY); textY += gp.tileSize;
+
+        textX = frameX + gp.tileSize*6;
+        textY = frameY + gp.tileSize*3;
+        g2.drawString("WASD/SETAS", textX - 45, textY); textY += gp.tileSize;
+        g2.drawString("ENTER", textX, textY); textY += gp.tileSize;
+        g2.drawString("F", textX, textY); textY += gp.tileSize;
+        g2.drawString("ESPAÇO", textX, textY); textY += gp.tileSize;
+        g2.drawString("ESC", textX, textY); textY += gp.tileSize;
+
+        //VOLTAR
+        textX = frameX + gp.tileSize;
+        textY = frameY + gp.tileSize * 9;
+        g2.drawString("Voltar", textX, textY);
+        if(comandoNum == 0){
+            g2.drawString(">", textX -25 , textY);
+            if(gp.keyH.enterPressed == true){
+                gp.gameState = gp.pauseState;
+            }
+        }
+        
+    }
+
     public void drawSubwindow(int x, int y, int largura, int altura){
             Color c = new Color(0,0,0, 210);
             g2.setColor(c);
@@ -455,10 +596,12 @@ public class UserInterface {
         int x = gp.screenWidth/2 - length/2;
         return x;    
     }
+
     public int getXparaAlinharTextoTexto(String texto, int tailX){
         int length = (int)g2.getFontMetrics().getStringBounds(texto, g2).getWidth();
         int x =tailX- length;
         return x;    
     }
+
 
 }

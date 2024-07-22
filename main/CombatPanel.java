@@ -83,13 +83,28 @@ public class CombatPanel extends JPanel {
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         drawGrid(g2);
-        player.draw(g2);
-        inimigo.draw(g2);
+        drawCharacters(g2); 
     }
 
+    public void drawCharacters(Graphics2D g2) {
+        int panelWidth = getWidth();
+        int panelHeight = getHeight();
+        
+        // Centralize os personagens
+        int playerX = panelWidth / 2 - gp.tileSize * 2;
+        int playerY = panelHeight / 2 - gp.tileSize / 2;
+        
+        int enemyX = panelWidth / 2 + gp.tileSize;
+        int enemyY = panelHeight / 2 - gp.tileSize / 2;
+
+        // Desenhe o jogador e o inimigo
+        player.draw(g2, playerX, playerY);
+        inimigo.draw(g2, enemyX, enemyY);
+    }
+}
     public void drawGrid(Graphics2D g2) {
-        int largura = 50; // número de linhas
-        int altura = 50; // número de colunas
+        int largura = 10; 
+        int altura = 10; 
         int squareSize = 50; // tamanho de cada quadrado
 
         for (int larg = 0; larg < largura; larg++) {

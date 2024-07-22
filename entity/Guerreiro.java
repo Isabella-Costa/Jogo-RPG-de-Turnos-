@@ -16,6 +16,7 @@ public class Guerreiro extends Player {
     public void setDefaultValues() {
         super.setDefaultValues();
         this.name = "Guerreiro";
+        maxLife = 8;
         this.força += 2;
         this.destreza += 1;
         maxMana = 3;

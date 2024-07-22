@@ -9,7 +9,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import javax.swing.JFrame;
 import javax.swing.JPanel;
+import javax.swing.SwingUtilities;
 
 public class GamePanel extends JPanel implements Runnable{
 
@@ -18,9 +20,9 @@ public class GamePanel extends JPanel implements Runnable{
     final int scale = 3;
 
     public final int tileSize = originalTileSize * scale;   // Bloco 48x48
-    public final int maxScreenColuna = 16;
+    public final int maxScreenColuna = 20;
     public final int maxScreenLargura = 12;
-    public final int screenWidth = tileSize * maxScreenColuna;      //768 pixels
+    public final int screenWidth = tileSize * maxScreenColuna;      //960 pixels
     public final int screenHeigth = tileSize * maxScreenLargura;    //576 pixels
 
     //Configurações Mapa WORLD
@@ -57,7 +59,9 @@ public class GamePanel extends JPanel implements Runnable{
     public final int pauseState = 2;
     public final int dialogoState = 3;
     public final int personagemState = 4;
-    //public final int batalhaState = 5;
+    public final int opcaoState = 5;
+    public final int gameOverState = 6;
+    public final int batalhaState = 7;
 
 
 
@@ -104,7 +108,20 @@ public class GamePanel extends JPanel implements Runnable{
         gameThread = new Thread(this);
         gameThread.start();
     }
- 
+
+    public void startCombat(Inimigo inimigo) {
+        CombatPanel combatPanel = new CombatPanel(this, player, inimigo);
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.setContentPane(combatPanel);
+        frame.revalidate();
+    }
+
+    public void endCombat() {
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.setContentPane(this);
+        frame.revalidate();
+    }
+    
 
     @Override
     public void run(){

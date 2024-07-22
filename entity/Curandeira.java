@@ -17,7 +17,7 @@ public class Curandeira extends Player {
     public void setDefaultValues() {
         super.setDefaultValues();
         this.name = "Curandeira";
-        this.maxLife += 2;
+        this.maxLife = 10;
         this.mana += 5;
     }
 

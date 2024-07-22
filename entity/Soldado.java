@@ -15,6 +15,8 @@ public class Soldado extends Player {
     @Override
     public void setDefaultValues() {
         super.setDefaultValues();
+        speed +=1;
+        maxLife = 6;
         this.name = "Soldado";
         this.força += 1;
         this.destreza += 2;

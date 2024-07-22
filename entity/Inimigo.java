@@ -98,7 +98,7 @@ public class Inimigo extends Entity {
             escudoTurnos--;
             if (escudoTurnos <= 0) {
                 escudoAtivo = false;
-                defesa -= 10; // Remove o bônus de defesa
+                defesa -= 10; 
             }
         }
 
@@ -125,7 +125,7 @@ public class Inimigo extends Entity {
     public void habilidadeEscudoDeSombras() {
         escudoAtivo = true;
         escudoTurnos = 3;
-        defesa += 10; // Aumenta a defesa em 10
+        defesa += 10; 
         System.out.println("Escudo de Sombras usado! Defesa aumentada por " + escudoTurnos + " turnos.");
     }
 
@@ -151,15 +151,16 @@ public class Inimigo extends Entity {
         
         if (vivo) {
             switch (spriteNum) {
-                case 1: imagem = inimigo1; break;
-
+                case 1:
+                    imagem = inimigo1;
+                    break;
             }
-
-            g2.drawImage(imagem, screenX, screenY, gp.tileSize, gp.tileSize, null);
-
-            
+            if (imagem != null) {
+                g2.drawImage(imagem, screenX, screenY, gp.tileSize, gp.tileSize, null);
+            }
         }
     }
+    
 
 }
 

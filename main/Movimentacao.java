@@ -32,6 +32,7 @@ public class Movimentacao implements KeyListener {
         //Pause State
         else if(gp.gameState == gp.pauseState){     
             pauseState(code);
+            opcaoState(code);
         }
         //Diagolo State
         else if(gp.gameState == gp.dialogoState){
@@ -42,6 +43,32 @@ public class Movimentacao implements KeyListener {
             personagemState(code);
         }
 
+    }
+
+    public void historiaState(int code){
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+
+        }
+    }
+        
+    public void opcaoState(int code){
+        if(code == KeyEvent.VK_ENTER){
+            enterPressed = true;
+
+        }
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gp.ui.comandoNum--;
+            if (gp.ui.comandoNum < 0) {
+                gp.ui.comandoNum = 3;
+            }
+        }
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gp.ui.comandoNum++;
+            if (gp.ui.comandoNum > 2) {
+                gp.ui.comandoNum = 3;
+            }
+        }
     }
 
     public void titleState(int code){
@@ -61,7 +88,7 @@ public class Movimentacao implements KeyListener {
             if (code == KeyEvent.VK_ENTER){
                  if(gp.ui.menuNum == 0){gp.ui.telaScreenState = 1;} 
                  else if(gp.ui.menuNum == 1){ }
-                 else if(gp.ui.menuNum == 2){ /*fazer dps uma tela contando a história e ensinando como jogar */}
+                 else if(gp.ui.menuNum == 2){;}
                  else if(gp.ui.menuNum == 3){ System.exit(0);}
             }
         }
@@ -106,7 +133,10 @@ public class Movimentacao implements KeyListener {
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){ downPressed = true; }
         if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT){ leftPressed= true; }
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){ rightPressed = true;}
-        if (code == KeyEvent.VK_ESCAPE){ gp.gameState = gp.pauseState; }
+        if (code == KeyEvent.VK_ESCAPE){ 
+            gp.gameState = gp.pauseState;
+
+        }
         if(code == KeyEvent.VK_SPACE){ gp.gameState = gp.personagemState; }
         if (code == KeyEvent.VK_ENTER){ enterPressed = true; }
     }

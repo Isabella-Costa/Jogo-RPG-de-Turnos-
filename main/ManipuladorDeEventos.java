@@ -2,6 +2,8 @@ package main;
 
 import java.awt.Rectangle;
 
+import entity.Inimigo;
+
 public class ManipuladorDeEventos {
     GamePanel gp;
     Rectangle eventRect;
@@ -32,8 +34,12 @@ public class ManipuladorDeEventos {
             danoPoco(gp.dialogoState);
         }
         
-        if (hit(2, 13, "esquerda")) {
+        if (hit(2, 13, "any")) {
             fonteDECura(gp.dialogoState);
+        }
+
+        if (hit(3, 3, "any")) { // Suponha que a posição do baú é (5, 10)
+            eventoBatalha(gp.batalhaState);
         }
     }
 
@@ -70,6 +76,13 @@ public class ManipuladorDeEventos {
         gp.ui.currentDialogo = "Você achou a cura!\nSua vida foi recuperada";
         gp.player.life = gp.player.maxLife;
     }
+    public void eventoBatalha(int gameState) {
+    gp.gameState = gameState;
+    gp.ui.currentDialogo = "Você encontrou um baú! Prepare-se para a batalha!";
+    Inimigo inimigo = new Inimigo(gp); 
+    gp.startCombat(inimigo);
+}
+
 
 
 }

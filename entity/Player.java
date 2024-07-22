@@ -57,7 +57,6 @@ public abstract class Player extends Entity {
 
         //Player VIDA
         level = 1;
-        maxLife = 8;
         life = maxLife;
         força = 1; // quanto mais força tem , mais dano ele causa
         destreza =1; // quanto mais destreza tem , menos dano ele recebe
@@ -156,6 +155,18 @@ public abstract class Player extends Entity {
                 invencibilidadeContador = 0;
             }
         }
+
+        if(life > maxLife){
+            life = maxLife;
+        }
+
+        if(mana > maxMana){
+            mana = maxMana;
+        }
+
+        if(life <= 0){
+            gp.gameState = gp.gameOverState;
+        }
     }
     
 
@@ -242,6 +253,11 @@ public abstract class Player extends Entity {
                     break;
                 case "Raio":
                     speed +=1;
+                    gp.obj[i] = null;
+                    break;
+                case "Bau":
+                    life = maxLife;
+                    mana = maxMana;
                     gp.obj[i] = null;
                     break;
             }
