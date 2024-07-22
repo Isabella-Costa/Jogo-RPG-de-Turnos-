@@ -43,8 +43,8 @@ public class GamePanel extends JPanel implements Runnable{
     Thread gameThread;
 
     //Entity e Objetos
-    public Player player = new Player(this, keyH); 
-    public Entity obj[] = new Entity[10]; //quantidade de objetos no jogo
+    public Player player; 
+    public Entity obj[] = new Entity[30]; //quantidade de objetos no jogo
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20];
     ArrayList<Entity> entityList = new ArrayList<>();
@@ -69,6 +69,26 @@ public class GamePanel extends JPanel implements Runnable{
         this.addKeyListener(keyH);
         this.setFocusable(true);
 
+    }
+
+    public void createPlayer(String characterType) {
+        if (characterType == null || characterType.isEmpty()) {
+            throw new IllegalArgumentException("Tipo de personagem não pode ser nulo ou vazio.");
+        }
+
+        switch (characterType) {
+            case "Guerreiro":
+                player = new Guerreiro(this, keyH);
+                break;
+            case "Soldado":
+                player = new Soldado(this, keyH);
+                break;
+            case "Curandeira":
+                player = new Curandeira(this, keyH);
+                break;
+            default:
+                throw new IllegalArgumentException("Tipo de personagem desconhecido: " + characterType);
+        }
     }
     
     public void setupGame(){

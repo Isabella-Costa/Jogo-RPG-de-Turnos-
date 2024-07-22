@@ -12,7 +12,7 @@ public class Monstro extends Entity{
         super(gp);
         this.gp = gp;
 
-        tipo = 2;
+        tipo = tipoMonstro;
         name = "Esqueleto Monstro";
         speed = 2;
         maxLife = 4;
@@ -29,14 +29,14 @@ public class Monstro extends Entity{
     }
 
     public void getImage(){
-        subida1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        subida2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        descida1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        descida2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        esquerda1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        esquerda2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        direita1 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
-        direita2 = setup("/monstro/monstro", gp.tileSize,gp.tileSize);
+        subida1 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        subida2 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        descida1 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        descida2 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        esquerda1 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        esquerda2 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        direita1 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
+        direita2 = setup("/monstro/monstro3", gp.tileSize,gp.tileSize);
         
 
     }

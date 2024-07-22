@@ -4,21 +4,28 @@ import java.awt.AlphaComposite;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import main.*;
 import objeto.OBJ_Escudo;
 import objeto.OBJ_Espada;
 
 
-public class Player extends Entity {
+public abstract class Player extends Entity {
     
     Movimentacao keyH;
     public int temChave = 0;
-
     public final int screenX; 
     public final int screenY;
-
     public boolean ataqueCancelado = false;
+    public ArrayList<Entity> inventario = new ArrayList<>();
+    public final int maxInventarioSize = 20;
+    public int tipo; 
+    public static final int GUERREIRO = 0;
+    public static final int SOLDADO = 1;
+    public static final int CURANDEIRA = 2;
+
+
 
     
 
@@ -32,13 +39,14 @@ public class Player extends Entity {
         solidArea = new Rectangle(8, 16, 32, 32);
         solidAreaDefaultX = solidArea.x;
         solidAreaDefaultY = solidArea.y;
-        ataqueArea.width =36;
-        ataqueArea.height = 36;
+        //ataqueArea.width =36;
+        //ataqueArea.height = 36;
 
 
         setDefaultValues();
         getPlayerImage(); 
         getPlayerAtaqueImage();
+        setItems();
     }
 
     public void setDefaultValues() {
@@ -49,10 +57,10 @@ public class Player extends Entity {
 
         //Player VIDA
         level = 1;
-        maxLife = 6;
+        maxLife = 8;
         life = maxLife;
-        força = 1; // quanto mais força tem , mas dano ele causa
-        destreza =1; // quanto mais destreza tem , mas dano ele recebe
+        força = 1; // quanto mais força tem , mais dano ele causa
+        destreza =1; // quanto mais destreza tem , menos dano ele recebe
         exp=0;
         proxLevelExp = 5; // quanto de exp precisa
         coin = 0;
@@ -63,36 +71,24 @@ public class Player extends Entity {
 
     }
 
-    public int getAtaque(){
-    return ataque = força * currentbArma.ataqueValor;
+    public void setItems(){
+
+        inventario.add(currentbArma);
+        inventario.add(currentEscudo);
     }
-    
+
+    public int getAtaque(){
+        ataqueArea = currentbArma.ataqueArea;
+        return ataque = força * currentbArma.ataqueValor;
+    }
+
     public int getDefesa(){
         return defesa = destreza * currentEscudo.defesaValor;
     }
 
-    public void getPlayerImage() {
-        subida1 = setup("/player/aventureiroSubida1", gp.tileSize,gp.tileSize);
-        subida2 = setup("/player/aventureiroSubida2", gp.tileSize,gp.tileSize);
-        descida1 = setup("/player/aventureiroDescida1", gp.tileSize,gp.tileSize);
-        descida2 = setup("/player/aventureiroDescida2", gp.tileSize,gp.tileSize);
-        esquerda1 = setup("/player/aventureiroEsquerda1", gp.tileSize,gp.tileSize);
-        esquerda2 = setup("/player/aventureiroEsquerda2", gp.tileSize,gp.tileSize);
-        direita1 = setup("/player/aventureiroDireita2", gp.tileSize,gp.tileSize);
-        direita2 = setup("/player/aventureiroDireita1", gp.tileSize,gp.tileSize);
-    }
+    public abstract void getPlayerImage();
 
-    public void getPlayerAtaqueImage(){
-        ataqueSubida1 = setup("/player/aventureiroAtaqueSubida", gp.tileSize,gp.tileSize*2);
-        ataqueSubida2 = setup("/player/aventureiroAtaqueSubida", gp.tileSize,gp.tileSize*2);
-        ataqueDescida1 = setup("/player/aventureiroAtaqueDescida", gp.tileSize,gp.tileSize*2);
-        ataqueDescida2 = setup("/player/aventureiroAtaqueDescida", gp.tileSize,gp.tileSize*2);
-        ataqueEsquerda1 = setup("/player/aventureiroAtaqueEsquerda", gp.tileSize*2,gp.tileSize);
-        ataqueEsquerda2 = setup("/player/aventureiroAtaqueEsquerda",gp.tileSize*2,gp.tileSize);
-        ataqueDireita1 = setup("/player/aventureiroAtaqueDireita", gp.tileSize*2,gp.tileSize);
-        ataqueDireita2 = setup("/player/aventureiroAtaqueDireita", gp.tileSize*2,gp.tileSize);
-
-    }
+    public abstract void getPlayerAtaqueImage();
 
     public void update() {
         if (atacando) {
@@ -210,14 +206,38 @@ public class Player extends Entity {
     public void pegarObjeto(int i){
         
         if ( i != 999){
+
             String objetoName = gp.obj[i].name;
             switch (objetoName) {
-                case "Chave": temChave++; gp.obj[i] = null;
+                case "Chave": 
+                    if(inventario.size() != maxInventarioSize){
+                        inventario.add(gp.obj[i]);  
+                        temChave++; 
+                        gp.obj[i] = null; 
+                    } 
+                    break;
+                case "Martelo": 
+                    if(inventario.size() != maxInventarioSize){
+                        inventario.add(gp.obj[i]);  
+                        gp.obj[i] = null; 
+                    } 
+                break;
+                case "Escudo Azul": 
+                    if(inventario.size() != maxInventarioSize){
+                        inventario.add(gp.obj[i]);  
+                        gp.obj[i] = null; 
+                    } 
+                    break;
+                case "Porçao Vermelha": 
+                    if(inventario.size() != maxInventarioSize){
+                        inventario.add(gp.obj[i]);  
+                        gp.obj[i] = null; 
+                    } 
                     break;
                 case "Porta":
                     if(temChave>0){
                         gp.obj[i] = null;
-                        temChave++;
+                        temChave--;
                     }
                     break;
                 case "Raio":
@@ -243,11 +263,14 @@ public class Player extends Entity {
     
     public void contatoMonstro(int i){
         if ( i != 999){
-            if(invencibilidade== false){
-            life -=1;
-            invencibilidade = true;
+            if(invencibilidade== false && gp.monster[i].morrendo == false){
+            
+                int dano = gp.monster[i].ataque - defesa;
+                if (dano < 0) { dano = 0;}
+                life -= dano;
+                invencibilidade = true;
             }
-        }
+        }   
     }
 
     public void danoMonster(int i){
@@ -264,6 +287,61 @@ public class Player extends Entity {
             }
         }
 
+    }
+    public void checkLevelUp(){
+
+        if(exp >= proxLevelExp){
+            level++;
+            proxLevelExp = proxLevelExp*2;
+            maxLife += 4;
+            life = maxLife;
+            força++;
+            destreza++;
+            ataque = getAtaque();
+            defesa = getDefesa();
+        }
+        if(level > 3){
+            //gp.gameState = gp.batalhaState;
+        }
+    }
+
+    public void selectItem(){
+        int itemIndex = gp.ui.getItemIndexOnSlot();
+        if(itemIndex < inventario.size()){
+            Entity selectedItem = inventario.get(itemIndex);
+
+            if(selectedItem.tipo == tipoEspada || selectedItem.tipo == tipoMartelo ){
+                currentbArma = selectedItem;
+                ataque = getAtaque();
+                getPlayerAtaqueImage();
+            }
+
+            if(selectedItem.tipo == tipoEscudo){
+                currentEscudo = selectedItem;
+                defesa = getDefesa();
+            }
+
+            if(selectedItem.tipo == tipoConsumivel){
+                selectedItem.use(this);
+                inventario.remove(itemIndex);
+            }
+
+        }
+
+    }
+
+    public void receberDano(int dano) {
+        int danoRecebido = dano - defesa;
+        if (danoRecebido < 0) {
+            danoRecebido = 0;
+        }
+        life -= danoRecebido;
+        System.out.println("O jogador recebeu " + danoRecebido + " de dano.");
+        
+        if (life <= 0) {
+            vivo = false;
+            System.out.println("O jogador foi derrotado.");
+        }
     }
 
     public void draw(Graphics2D g2) {

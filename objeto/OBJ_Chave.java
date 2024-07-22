@@ -12,5 +12,6 @@ public class OBJ_Chave extends Entity{
         
         name = "Chave";
         descida1 = setup("objetos/chave", gp.tileSize,gp.tileSize);
+        descrição = "[" + name + "]\nAbre uma porta.";
     }
 }

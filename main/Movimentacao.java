@@ -2,6 +2,7 @@ package main;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+
 public class Movimentacao implements KeyListener {
     GamePanel gp;
 
@@ -64,31 +65,40 @@ public class Movimentacao implements KeyListener {
                  else if(gp.ui.menuNum == 3){ System.exit(0);}
             }
         }
-        else if(gp.ui.telaScreenState == 1){
-            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
+        else if (gp.ui.telaScreenState == 1) {
+            if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
                 gp.ui.menuNum--;
-                if (gp.ui.menuNum < 0){
-                    gp.ui.menuNum = 2;
+                if (gp.ui.menuNum < 0) {
+                    gp.ui.menuNum = 3;
                 }
             }
-            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
+            if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
                 gp.ui.menuNum++;
-                if (gp.ui.menuNum >  2){
+                if (gp.ui.menuNum > 3) {
                     gp.ui.menuNum = 0;
                 }
             }
-            if (code == KeyEvent.VK_ENTER){
-                 if(gp.ui.menuNum == 0){
-                   gp.gameState = gp.playState;
-                 } 
-                 else if(gp.ui.menuNum == 1){
-                    gp.gameState = gp.playState;  //Mudar o personagem dps
-                 }
-                 else if(gp.ui.menuNum == 2){
-                    gp.ui.telaScreenState = 0;
-                 }
+            if (code == KeyEvent.VK_ENTER) {
+                switch (gp.ui.menuNum) {
+                    case 0:
+                        gp.createPlayer("Guerreiro");
+                        gp.gameState = gp.playState;
+                        break;
+                    case 1:
+                        gp.createPlayer("Soldado");
+                        gp.gameState = gp.playState;
+                        break;
+                    case 2:
+                        gp.createPlayer("Curandeira");
+                        gp.gameState = gp.playState;
+                        break;
+                    case 3:
+                        gp.ui.telaScreenState = 0; // Voltar ao menu anterior
+                        break;
+                }
             }
         }
+        
     }
 
     public void playState(int code){
@@ -116,9 +126,35 @@ public class Movimentacao implements KeyListener {
     }
 
     public void personagemState(int code){
-        if(code == KeyEvent.VK_SPACE){
+        if (code == KeyEvent.VK_SPACE) {
             gp.gameState = gp.playState;
         }
+        
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            if (gp.ui.slotLargura != 0) {
+                gp.ui.slotLargura--;
+            }
+        }
+        if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT) {
+            if (gp.ui.slotColuna != 0) {
+                gp.ui.slotColuna--;
+            }  
+        }
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            if (gp.ui.slotLargura != 3) {
+                gp.ui.slotLargura++;
+            }  
+        }
+        if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT) {
+            if (gp.ui.slotColuna != 4) { 
+                gp.ui.slotColuna++; 
+            }
+        }
+        if(code == KeyEvent.VK_ENTER){
+            gp.player.selectItem();
+
+        }  
+        
     }
 
 

@@ -47,6 +47,18 @@ public class ConfiguracaoDeObjetos {
         gp.obj[7].worldX = 39 * gp.tileSize;
         gp.obj[7].worldY = 7 * gp.tileSize;
 
+        gp.obj[8] = new OBJ_Martelo(gp);
+        gp.obj[8].worldX = 47 * gp.tileSize;
+        gp.obj[8].worldY = 47 * gp.tileSize;
+
+        gp.obj[9] = new OBJ_EscudoAzul(gp);
+        gp.obj[9].worldX =6 * gp.tileSize;
+        gp.obj[9].worldY = 5 * gp.tileSize;
+
+        gp.obj[10] = new OBJ_PorcaoVerm(gp);
+        gp.obj[10].worldX =44 * gp.tileSize;
+        gp.obj[10].worldY = 14 * gp.tileSize;
+
     
 }
 
@@ -55,20 +67,11 @@ public class ConfiguracaoDeObjetos {
         gp.npc[0].worldX = 11 * gp.tileSize;
         gp.npc[0].worldY = 6 * gp.tileSize;
 
-        gp.npc[1] = new NPC_Mago(gp);
-        gp.npc[1].worldX = 21 * gp.tileSize;
-        gp.npc[1].worldY = 21 * gp.tileSize;
-
-        gp.npc[2] = new NPC_Mago(gp);
-        gp.npc[2].worldX = 21 * gp.tileSize;
-        gp.npc[2].worldY = 31 * gp.tileSize;
-
-
     }
 
     public void setMontro(){
         gp.monster[0] = new Monstro(gp);
-        gp.monster[0].worldX = 23 * gp.tileSize;
+        gp.monster[0].worldX = 20 * gp.tileSize;
         gp.monster[0].worldY = 42* gp.tileSize;
 
         gp.monster[1] = new Monstro(gp);
@@ -85,7 +88,7 @@ public class ConfiguracaoDeObjetos {
 
         gp.monster[4] = new Monstro(gp);
         gp.monster[4].worldX = 36 * gp.tileSize;
-        gp.monster[4].worldY = 22 * gp.tileSize;
+        gp.monster[4].worldY = 20 * gp.tileSize;
 
         gp.monster[5] = new Monstro(gp);
         gp.monster[5].worldX = 36 * gp.tileSize;

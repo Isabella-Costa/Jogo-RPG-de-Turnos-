@@ -26,17 +26,15 @@ public class Entity {
    
     String dialogos[] = new String[50]; // variedade de diálogo melhorar dps
     int dialogosIndex = 0;
-    public String name; 
 
     //Estado
     public int spriteNum = 1;
     public int worldX;
     public int worldY;
-    public int speed;
     public String direction = "descida";
     public boolean colisao = false;
     public boolean colisaoOn = false;
-    boolean atacando = false;
+    public boolean atacando = false;
     public boolean vivo = true;
     public boolean morrendo = false;
     boolean hpBarOn = false;
@@ -49,9 +47,12 @@ public class Entity {
     public int hpBarContador = 0;
 
     //Caracteristicas Atributos
-    public int tipo;       // 0 - player, 1 - npc,   2 - monstro
+    public String name; 
+    public int speed;
     public int maxLife;
     public int life;
+    public int maxMana;
+    public int mana;
     public int level;
     public int força; 
     public int destreza; 
@@ -62,14 +63,31 @@ public class Entity {
     public int coin;
     public Entity currentbArma;
     public Entity currentEscudo;
+    public Projectiles projectiles;
 
     // ITEM Atributos 
     public int ataqueValor;
     public int defesaValor;
+    public String descrição = "";
+
+    //TIPO
+    public int tipo; // 0 - player, 1 - npc,   2 - monstro
+    public final int tipoPlayer = 0;
+    public final int tipoNPC = 1;
+    public final int tipoMonstro = 2;
+    public final int tipoEspada = 3;
+    public final int tipoMartelo = 4;
+    public final int tipoEscudo = 5;
+    public final int tipoConsumivel = 0;
+
 
     
     public Entity(GamePanel gp) {
         this.gp = gp;
+    }
+
+    public void use(Entity entity){
+        
     }
 
     public void setAction(){
@@ -99,9 +117,7 @@ public class Entity {
                 break;
             case "direita":
                 direction = "esquerda";
-                break;
-            
-            
+                break;  
         }
         
     }
@@ -116,12 +132,8 @@ public class Entity {
         gp.cCheck.checkEntity(this, gp.monster);
         boolean contatoPlayer = gp.cCheck.checkPlayer(this);
 
-        if(this.tipo == 2 && contatoPlayer == true){
-            if(gp.player.invencibilidade == false){
-                //Podemos causar danos
-                gp.player.life -= 1;
-                gp.player.invencibilidade = true;
-            }
+        if(this.tipo == tipoMonstro && contatoPlayer == true){
+            danoPlayer(ataque);
         }
 
         if(!colisaoOn){
@@ -150,6 +162,15 @@ public class Entity {
                 }
             }
         }
+    }
+
+    public void danoPlayer(int ataque){
+        if(gp.player.invencibilidade == false){
+            //Podemos causar danos
+            gp.player.life -= 1;
+            gp.player.invencibilidade = true;
+        }
+
     }
     
     public void draw(Graphics2D g2){
@@ -232,7 +253,6 @@ public class Entity {
         if(morteCounter > i*6 && morteCounter <= i*7){ mudarAlpha(g2, 0f);}
         if(morteCounter > i*7 && morteCounter <= i*8){ mudarAlpha(g2, 1f);}
         if(morteCounter > i*8){
-            morrendo = false;
             vivo = false;
         }
     }

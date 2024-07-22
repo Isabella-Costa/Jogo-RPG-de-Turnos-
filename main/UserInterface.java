@@ -8,6 +8,7 @@ import java.awt.Toolkit;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
+import objeto.OBJ_Mana;
 import objeto.OBJ_Vida;
 import entity.*;
 
@@ -16,14 +17,16 @@ public class UserInterface {
     Graphics2D g2;
     Font fonte15, fonte20, fonte30 ,fonte40, fonte80;
     Font fonteTitulo;
-    BufferedImage coracaoFull, coracaoMetade, coracaoVazio;
+    BufferedImage coracaoFull, coracaoMetade, coracaoVazio, cristalFull, cristalBranco;
     public boolean messageOn = false;
     public String message = "";
     public boolean fimDeJogo = false;
     public String currentDialogo = "";
     Image logo;
     public int menuNum = 0;
-    public int telaScreenState = 0; // 0 - primeira tela, 1 - segunda tela..  -- 2 - batalha 
+    public int telaScreenState = 0; // 0 - primeira tela /menu, 1 - escolhaP  -- 2 - mapa 3/batalha 
+    public int slotColuna = 0;
+    public int slotLargura = 0;
     //private int contadorMessage = 0;
 
     public UserInterface(GamePanel gp) {
@@ -41,6 +44,9 @@ public class UserInterface {
         coracaoFull = coracao.image;
         coracaoMetade = coracao.image2;
         coracaoVazio = coracao.image3;
+        Entity cristal = new OBJ_Mana(gp);
+        cristalFull = cristal.image;
+        cristalBranco = cristal.image2;
 
     }
 
@@ -79,6 +85,8 @@ public class UserInterface {
         //  Personagem State
         if(gp.gameState == gp.personagemState){
             drawPersonagemScreen();
+            drawInventory();
+
         }
     }
 
@@ -179,26 +187,33 @@ public class UserInterface {
 
             String texto = "Selecione seu Personagem";
             int x = getXparaCentralizarTexto(texto);
-            int y = gp.tileSize*3;
+            int y = gp.tileSize * 3;
             g2.drawString(texto, x, y);
-            
+
             g2.setFont(fonte20);
             texto = "Alex - GUERREIRO";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
-            if(menuNum == 0){
+            if (gp.ui.menuNum == 0) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-            
-            // Colocar a foto dos personagens embaixo de cada
-            
+
             g2.setFont(fonte20);
             texto = "Tharok - SOLDADO";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
-            if(menuNum == 1){
+            if (gp.ui.menuNum == 1) {
+                g2.drawString(">", x - gp.tileSize, y);
+            }
+
+            g2.setFont(fonte20);
+            texto = "Althea - CURANDEIRA";
+            x = getXparaCentralizarTexto(texto);
+            y += gp.tileSize;
+            g2.drawString(texto, x, y);
+            if (gp.ui.menuNum == 2) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
 
@@ -207,9 +222,11 @@ public class UserInterface {
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
-            if(menuNum == 2){
+            if (gp.ui.menuNum == 3) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
+
+            
 
         }
         
@@ -222,7 +239,7 @@ public class UserInterface {
         g2.setColor(Color.WHITE);
         String texto = "PAUSED";
         int x = getXparaCentralizarTexto(texto);
-        int y = gp.screenHeigth/2;
+        int y = gp.screenHeigth/6;
 
         g2.drawString(texto, x, y);
     }
@@ -245,6 +262,7 @@ public class UserInterface {
             
         }
     }
+
     public void drawPersonagemScreen(){
         //Cria a "janela/frame"
         final int frameX = gp.tileSize;
@@ -342,6 +360,84 @@ public class UserInterface {
         g2.drawImage(gp.player.currentEscudo.descida1, tailX - gp.tileSize, textY -15, null);
 
     }
+
+    public void drawInventory(){
+        //Cria a "janela/frame"
+        int frameX = gp.tileSize *9;
+        int frameY = gp.tileSize;
+        int frameLargura = gp.tileSize*6;
+        int frameAltura = gp.tileSize*5;
+
+        drawSubwindow(frameX, frameY, frameLargura, frameAltura);
+
+        // SLOT
+        final int slotXstart = frameX + 20;
+        final int slotYstart = frameY + 20;
+        int slotX = slotXstart;
+        int slotY = slotYstart;
+        int slotSize = gp.tileSize + 3;
+        int slotsPerLargura = 5; // Número de slots por largura
+
+        // Desenha itens do jogador
+        for (int i = 0; i < gp.player.inventario.size(); i++) {
+
+            // Equipa Cursor
+            if (gp.player.inventario.get(i) == gp.player.currentbArma ||
+                gp.player.inventario.get(i) == gp.player.currentEscudo) {
+                    g2.setColor(new Color(240, 190, 90));
+                    g2.fillRoundRect(slotX, slotY, gp.tileSize, gp.tileSize, 10, 10);
+            
+            }
+
+            g2.drawImage(gp.player.inventario.get(i).descida1, slotX, slotY, null);
+            slotX += slotSize;
+            
+            // Move para a próxima linha após o número de slots por linha
+            if ((i + 1) % slotsPerLargura == 0) {
+                slotX = slotXstart;
+                slotY += slotSize;
+            }
+        }
+
+        // CURSOR
+        int cursorX = slotXstart + (slotSize * slotColuna);
+        int cursorY = slotYstart + (slotSize * slotLargura);
+        int cursorWidth = gp.tileSize;
+        int cursorHeight = gp.tileSize;
+
+        // DRAW CURSOR
+        g2.setColor(Color.WHITE);
+        g2.setStroke(new BasicStroke(3));
+        g2.drawRoundRect(cursorX, cursorY, cursorWidth, cursorHeight, 10, 10);
+
+        // Descrição Frame
+        int dFrameX = frameX;
+        int dFrameY = frameY + frameAltura;
+        int dFrameLargura = frameLargura;
+        int dFrameAltura = gp.tileSize*3;
+
+
+        // Desenha Descrição Texto
+        int textX = dFrameX + 20;
+        int textY = dFrameY + gp.tileSize;
+        g2.setFont(fonte20);
+
+        int itemIndex = getItemIndexOnSlot();
+        if(itemIndex < gp.player.inventario.size()){
+            drawSubwindow(dFrameX, dFrameY, dFrameLargura, dFrameAltura);
+            for (String line : gp.player.inventario.get(itemIndex).descrição.split("\n")){
+                
+                g2.drawString(line, textX, textY);
+                textY += 32;
+            }
+        }
+    }
+
+    public int getItemIndexOnSlot() {
+        int itemIndex = (slotColuna + (slotLargura * 5));
+        return itemIndex;
+    }
+    
     
     public void drawSubwindow(int x, int y, int largura, int altura){
             Color c = new Color(0,0,0, 210);
