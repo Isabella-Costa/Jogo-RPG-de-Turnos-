@@ -44,7 +44,7 @@ public class CombatPanel extends JPanel {
         abandonButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                abandonBattle();
+                gp.gameState = gp.menuState;
             }
         });
 
@@ -64,7 +64,7 @@ public class CombatPanel extends JPanel {
     }
 
     public void openInventory() {
-        // Lógica para abrir o inventário
+        // cod para abrir o inventário
     }
 
     public void abandonBattle() {
@@ -81,6 +81,7 @@ public class CombatPanel extends JPanel {
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        setBackground(Color.BLACK);  
         Graphics2D g2 = (Graphics2D) g;
         drawGrid(g2);
         drawCharacters(g2); 
@@ -90,29 +91,48 @@ public class CombatPanel extends JPanel {
         int panelWidth = getWidth();
         int panelHeight = getHeight();
         
-        // Centralize os personagens
+        // Centraliza os personagens
         int playerX = panelWidth / 2 - gp.tileSize * 2;
         int playerY = panelHeight / 2 - gp.tileSize / 2;
         
         int enemyX = panelWidth / 2 + gp.tileSize;
         int enemyY = panelHeight / 2 - gp.tileSize / 2;
 
-        // Desenhe o jogador e o inimigo
-        player.draw(g2, playerX, playerY);
-        inimigo.draw(g2, enemyX, enemyY);
-    }
-}
-    public void drawGrid(Graphics2D g2) {
-        int largura = 10; 
-        int altura = 10; 
-        int squareSize = 50; // tamanho de cada quadrado
+        int originalPlayerX = player.worldX;
+        int originalPlayerY = player.worldY;
+        
+        int originalEnemyX = inimigo.worldX;
+        int originalEnemyY = inimigo.worldY;
 
-        for (int larg = 0; larg < largura; larg++) {
-            for (int alt = 0; alt < altura; alt++) {
-                int y = alt * squareSize;
-                int x = larg * squareSize;
-                g2.drawRect(x, y, squareSize, squareSize);
-            }
+        player.worldX = playerX;
+        player.worldY = playerY;
+        
+        inimigo.worldX = enemyX;
+        inimigo.worldY = enemyY;
+
+        // Desenha o jogador e  inimigo
+        player.draw(g2);
+        inimigo.draw(g2);
+
+        player.worldX = originalPlayerX;
+        player.worldY = originalPlayerY;
+        
+        inimigo.worldX = originalEnemyX;
+        inimigo.worldY = originalEnemyY;
+    }
+
+    public void drawGrid(Graphics2D g2) {
+        int largura = getWidth();  
+        int altura = getHeight();  
+        int squareSize = 50;  
+
+        g2.setColor(Color.WHITE);  
+
+        for (int x = 0; x < largura; x += squareSize) {
+            g2.drawLine(x, 0, x, altura);
+        }
+        for (int y = 0; y < altura; y += squareSize) {
+            g2.drawLine(0, y, largura, y);
         }
     }
 }

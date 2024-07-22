@@ -256,11 +256,9 @@ public abstract class Player extends Entity {
                     gp.obj[i] = null;
                     break;
                 case "Bau":
-                    life = maxLife;
-                    mana = maxMana;
                     gp.obj[i] = null;
                     break;
-            }
+                    }
         }
 
     }

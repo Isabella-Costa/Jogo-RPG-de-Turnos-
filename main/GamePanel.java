@@ -94,6 +94,10 @@ public class GamePanel extends JPanel implements Runnable{
                 throw new IllegalArgumentException("Tipo de personagem desconhecido: " + characterType);
         }
     }
+
+    public Player getPlayer() {
+        return player;
+    }
     
     public void setupGame(){
         aSetter.setObjeto();

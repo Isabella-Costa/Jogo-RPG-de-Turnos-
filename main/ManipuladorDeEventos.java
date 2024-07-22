@@ -77,10 +77,10 @@ public class ManipuladorDeEventos {
         gp.player.life = gp.player.maxLife;
     }
     public void eventoBatalha(int gameState) {
-    gp.gameState = gameState;
-    gp.ui.currentDialogo = "Você encontrou um baú! Prepare-se para a batalha!";
-    Inimigo inimigo = new Inimigo(gp); 
-    gp.startCombat(inimigo);
+        gp.gameState = gameState;
+        gp.ui.currentDialogo = "Você encontrou um baú! Prepare-se para a batalha!";
+        Inimigo inimigo = new Inimigo(gp); 
+        gp.startCombat(inimigo);
 }
 
 
