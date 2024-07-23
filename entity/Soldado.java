@@ -21,7 +21,7 @@ public class Soldado extends Player {
         this.força += 1;
         this.destreza += 2;
         maxMana = 4;
-        mana = maxMana;
+        defesa *=2;
 
     }
 

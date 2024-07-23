@@ -59,13 +59,20 @@ public class ConfiguracaoDeObjetos {
         gp.obj[10].worldX =44 * gp.tileSize;
         gp.obj[10].worldY = 14 * gp.tileSize;
 
+        gp.obj[11] = new OBJ_PorcaoVerm(gp);
+        gp.obj[11].worldX =40 * gp.tileSize;
+        gp.obj[11].worldY = 14 * gp.tileSize;
+
+        gp.obj[12] = new OBJ_PorcaoVerm(gp);
+        gp.obj[12].worldX =40 * gp.tileSize;
+        gp.obj[12].worldY = 40 * gp.tileSize;
     
 }
 
     public void setNPC(){
         gp.npc[0] = new NPC_Mago(gp);
-        gp.npc[0].worldX = 11 * gp.tileSize;
-        gp.npc[0].worldY = 6 * gp.tileSize;
+        gp.npc[0].worldX = 20 * gp.tileSize;
+        gp.npc[0].worldY = 18 * gp.tileSize;
 
     }
 

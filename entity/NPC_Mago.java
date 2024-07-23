@@ -27,26 +27,30 @@ public class NPC_Mago extends Entity {
     }
 
     public void setDialogo() {
-        dialogos[0] = "MAGO: Olá, eu sou Elyndor, um mago do Conselho dos Magos de Arvandor.";
-        dialogos[1] = "PLAYER: Mestre Solis, ouvi falar da sua sabedoria. \nPreciso de sua orientação para deter Zargath.";
-        dialogos[2] = "PLAYER: A Biblioteca Esquecida... claro, \né lá que encontrarei o Feitiço Proibido.";
-        dialogos[3] = "PLAYER:Essas armadilhas mágicas são complexas, \nmas nada que eu não possa resolver.";
-        dialogos[4] = "MAGO: Cada enigma resolvido nos aproxima \nda derrota de Zargath.";
-        dialogos[5] = "PLAYER:Consegui! Os pergaminhos do \nFeitiço Proibido estão em minhas mãos.";
-        dialogos[6] = "MAGO:Este feitiço antigo deve ser usado \ncom cuidado e precisão.";
-        dialogos[7] = "PLAYER:Mestre Solis, encontrei o feitiço. \nO que devo fazer agora?";
-        dialogos[8] = "PLAYER:Com este poder, posso enfraquecer Zargath \ne salvar nosso reino.";
-        dialogos[9] = "MAGO: Alex,\n juntos podemos derrotar o Devastador.";
-        dialogos[10] = "PLAYER:Vou canalizar toda a minha energia \nmágica para este feitiço.";
-        dialogos[11] = "MAGO: Os elementais serão uma grande ajuda na \nbatalha contra Zargath.";
-        dialogos[12] = "MAGO: Precisamos de uma defesa sólida para enfrentar Zargath.";
-        dialogos[13] = "PLAYER:Vamos lutar pelo nosso \nreino e pelo nosso povo!";
-        dialogos[14] = "MAGO: A magia é tanto uma arte quanto uma ciência. \nCada feitiço tem sua própria vida.";
-        dialogos[15] = "PLAYER:A força bruta não derrotará Zargath. \nPrecisamos de estratégia e inteligência.";
-        dialogos[16] = "MAGO: O conhecimento é a arma mais poderosa \nque um mago pode possuir.";
-        dialogos[17] = "MAGO: Nunca subestime o poder da natureza. \nOs elementais são nossos aliados mais antigos.";
-        dialogos[18] = "MAGO: Lembrem-se, coragem e sabedoria nos \nguiarão à vitória.";
-        dialogos[19] = "PLAYER:Com união e determinação, venceremos Zargath \ne restauraremos a paz em Arvandor.";
+        dialogos[0] = "O reino de Arvandor é uma terra de vastas florestas, majestosas montanhas e antigas ruínas. \nGovernado pelo sábio Rei Alistair, o reino viveu em paz por muitos anos, \n" + //
+                        "protegido por suas fortalezas e heróis lendários.";
+        dialogos[1] = "No entanto, uma antiga ameaça despertou: Zargath, o Devastador, um monstro colossal \nque uma vez foi aprisionado pelos primeiros magos do reino.";
+        dialogos[2] = "Nos confins das Montanhas Negras, um grupo de cultistas sombrios\n realizou um ritual proibido, liberando Zargath de sua prisão milenar. \nEm resposta, o Rei Alistair convocou os maiores heróis do reino para enfrentar essa ameaça.";
+        dialogos[3] = "MAGO: Olá, eu sou Elyndor, um mago do Conselho dos Magos de Arvandor.";
+        dialogos[4] = "PLAYER: Mestre Solis, ouvi falar da sua sabedoria. \nPreciso de sua orientação para deter Zargath.";
+        dialogos[5] = "PLAYER: A Biblioteca Esquecida... claro, \né lá que encontrarei o Feitiço Proibido.";
+        dialogos[6] = "MAGO: Cada enigma resolvido nos aproxima da derrota de Zargath.\n Mas cuidado com as armadilhas que você nao pode ver";
+        dialogos[7] = "PLAYER:Essas armadilhas mágicas são complexas, \nmas nada que eu não possa resolver.";
+        dialogos[8] = "PLAYER:Onde está esse Feitiço, Mago?";
+        dialogos[9] = "MAGO:Este feitiço antigo deve está guardado num \nPortal Secreto. Assim que você estiver experência vai poder atravessá-lo";
+        dialogos[10] = "PLAYER:Mestre Solis, encontrei o feitiço. \nO que devo fazer agora?";
+        dialogos[11] = "PLAYER:Com este poder, posso enfraquecer Zargath \ne salvar nosso reino.";
+        dialogos[12] = "MAGO: Alex,\n juntos podemos derrotar o Devastador.";
+        dialogos[13] = "PLAYER:Vou canalizar toda a minha energia \nmágica para este feitiço.";
+        dialogos[14] = "MAGO: Os elementais serão uma grande ajuda na \nbatalha contra Zargath.";
+        dialogos[15] = "MAGO: Precisamos de uma defesa sólida para enfrentar Zargath.";
+        dialogos[16] = "PLAYER:Vamos lutar pelo nosso \nreino e pelo nosso povo!";
+        dialogos[17] = "MAGO: A magia é tanto uma arte quanto uma ciência. \nCada feitiço tem sua própria vida.";
+        dialogos[18] = "PLAYER:A força bruta não derrotará Zargath. \nPrecisamos de estratégia e inteligência.";
+        dialogos[19] = "MAGO: O conhecimento é a arma mais poderosa \nque um mago pode possuir.";
+        dialogos[20] = "MAGO: Nunca subestime o poder da natureza. \nOs elementais são nossos aliados mais antigos.";
+        dialogos[21] = "MAGO: Lembrem-se, coragem e sabedoria nos \nguiarão à vitória.";
+        dialogos[22] = "PLAYER:Com união e determinação, venceremos Zargath \ne restauraremos a paz em Arvandor.";
     }
     
     public void setAction(){

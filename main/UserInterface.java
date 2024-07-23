@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Toolkit;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.util.ArrayList;
 
 import objeto.OBJ_Mana;
 import objeto.OBJ_Vida;
@@ -15,11 +16,14 @@ import entity.*;
 public class UserInterface {
     GamePanel gp;
     Graphics2D g2;
-    Font fonte15, fonte20, fonte30 ,fonte40, fonte80;
+    Font fonte10, fonte15, fonte20, fonte30 ,fonte40, fonte80;
     Font fonteTitulo;
     BufferedImage coracaoFull, coracaoMetade, coracaoVazio, cristalFull, cristalBranco;
     public boolean messageOn = false;
-    public String message = "";
+    //public String message = "";
+    //int contadorMessage =0;
+    ArrayList<String> message = new ArrayList<>();
+    ArrayList<Integer> messageContador = new ArrayList<>();
     public boolean fimDeJogo = false;
     public String currentDialogo = "";
     public int comandoNum =0;
@@ -33,6 +37,7 @@ public class UserInterface {
 
     public UserInterface(GamePanel gp) {
         this.gp = gp;
+        this.fonte15 = new Font("Cambria", Font.BOLD, 10);
         this.fonte15 = new Font("Cambria", Font.BOLD, 15);
         this.fonte20 = new Font("Cambria", Font.BOLD, 20 );
         this.fonte30 = new Font("Cambria", Font.BOLD, 30 ); //Definir a fonte depois
@@ -52,9 +57,9 @@ public class UserInterface {
 
     }
 
-    public void showMessage(String texto){
-        this.message = texto;
-        this.messageOn = true;
+    public void addMessage(String texto){
+        message.add(texto);
+        messageContador.add(0);
     }
 
     public void draw(Graphics2D g2){
@@ -72,6 +77,7 @@ public class UserInterface {
         // Play State
         if(gp.gameState == gp.playState){
             drawPlayerLife();
+            drawMessage();
         }
         // Pause State
         if(gp.gameState == gp.pauseState){
@@ -91,6 +97,76 @@ public class UserInterface {
             drawInventory();
 
         }
+        if(gp.gameState == gp.gameOverState){
+            drawGameOverScreen();
+
+        }
+    }
+
+    public void drawMessage(){
+        int messageX = gp.tileSize;
+        int messageY = gp.tileSize*4;
+        g2.setFont(fonte40);
+
+        for(int i = 0; i < message.size(); i++){
+            if(message.get(i) != null){
+                g2.setColor(Color.BLACK);
+                g2.drawString(message.get(i), messageX-1, messageY-1);
+                g2.setColor(Color.WHITE);
+                g2.drawString(message.get(i), messageX, messageY);
+
+                int contador = messageContador.get(i) + 1; //messageContador++;
+                messageContador.set(i, contador);// define-moddifca o contador do array
+                messageY +=50;
+
+                if(messageContador.get(i) > 180) {
+                    message.remove(i);
+                    messageContador.remove(i);
+
+                }
+
+            }
+        }
+    }
+
+    public void drawGameOverScreen(){
+        g2.setColor(new Color (0,0,0, 150));
+        g2.fillRect(0,0, gp.screenWidth, gp.screenHeigth);
+
+        int x;
+        int y;
+        String text;
+        g2.setFont(fonte80);
+        //  Sombra
+        text = "Game Over";
+        g2.setColor(Color.black);
+        x = getXparaCentralizarTexto(text);
+        y = gp.tileSize*4;
+        g2.drawString(text, x, y);
+        //  Texto
+        g2.setColor(Color.WHITE);
+        g2.drawString(text, x-3, y-3);
+
+        //  TENTE NOVAMENTE
+        g2.setFont(fonte20);
+        text = "TENTE NOVAMENTE";
+        x = getXparaCentralizarTexto(text);
+        y += gp.tileSize*4;
+        g2.drawString(text, x, y);
+        if(comandoNum == 0){
+            g2.drawString(">", x- 40, y);
+        }
+
+        // VOLTAR TELA MENU
+        text = "VOLTAR";
+        x = getXparaCentralizarTexto(text);
+        y += gp.tileSize;
+        g2.drawString(text, x, y);
+        if(comandoNum == 1){
+            g2.drawString(">", x- 40, y);
+        }
+
+
     }
 
     public void drawPlayerLife(){
@@ -179,41 +255,25 @@ public class UserInterface {
                 g2.drawString(">", x - gp.tileSize, y);
             }
     
-            texto = "|   Carregar Jogo   |";
+            texto = "|             Sair            |";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
             if(menuNum == 1){
                 g2.drawString(">", x - gp.tileSize, y);
             }
-    
-            texto = "| História do Jogo |";
-            x = getXparaCentralizarTexto(texto);
-            y += gp.tileSize;
-            g2.drawString(texto, x, y);
-            if(menuNum == 2){
-                g2.drawString(">", x - gp.tileSize, y);
-            
-            }
-    
-            texto = "|             Sair            |";
-            x = getXparaCentralizarTexto(texto);
-            y += gp.tileSize;
-            g2.drawString(texto, x, y);
-            if(menuNum == 3){
-                g2.drawString(">", x - gp.tileSize, y);
-            }
         }
-        else if (telaScreenState == 1){
-            //Tela de seleção
+        else if (telaScreenState == 1) {
+            // Tela de seleção
             g2.setColor(Color.WHITE);
             g2.setFont(fonte30);
-
+        
             String texto = "Selecione seu Personagem";
             int x = getXparaCentralizarTexto(texto);
             int y = gp.tileSize * 3;
             g2.drawString(texto, x, y);
-
+        
+            // Alex
             g2.setFont(fonte20);
             texto = "Alex - GUERREIRO";
             x = getXparaCentralizarTexto(texto);
@@ -222,7 +282,8 @@ public class UserInterface {
             if (gp.ui.menuNum == 0) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-
+        
+            // Tharok
             g2.setFont(fonte20);
             texto = "Tharok - SOLDADO";
             x = getXparaCentralizarTexto(texto);
@@ -231,16 +292,18 @@ public class UserInterface {
             if (gp.ui.menuNum == 1) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-
+        
+            // Athea
             g2.setFont(fonte20);
-            texto = "Althea - CURANDEIRA";
+            texto = "Athea - CURANDEIRA";
             x = getXparaCentralizarTexto(texto);
             y += gp.tileSize;
             g2.drawString(texto, x, y);
             if (gp.ui.menuNum == 2) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-
+        
+            // Voltar
             g2.setFont(fonte20);
             texto = "|     Voltar    |";
             x = getXparaCentralizarTexto(texto);
@@ -249,12 +312,50 @@ public class UserInterface {
             if (gp.ui.menuNum == 3) {
                 g2.drawString(">", x - gp.tileSize, y);
             }
-
-            
-
-        }
         
+            g2.setFont(fonte10);
+            texto = "DICA: Se você ainda não conhece os comandos do jogo, clique ESC quando ele começar";
+            x = getXparaCentralizarTexto(texto);
+            y = gp.tileSize;
+            g2.drawString(texto, x, y);
+
+            int infoY = gp.screenHeigth - (gp.tileSize*2);
+        
+            if (gp.ui.menuNum == 0) {
+                g2.setFont(fonte10);
+                String historia = "História: Alex é um jovem guerreiro que sempre sonhou em se tornar um herói. ";
+                String motivacao = "Motivação: Provar seu valor e proteger seu lar das garras de Zargath.";
+        
+                x = gp.tileSize;
+                y = infoY;
+                g2.drawString(historia, x, y);
+                y += gp.tileSize;
+                g2.drawString(motivacao, x, y);
+            } else if (gp.ui.menuNum == 1) {
+                g2.setFont(fonte10);
+                String historia = "História: Tharok é um veterano de guerra, conhecido por sua bravura no campo de batalha. ";
+                String motivacao = "Motivação: Defender seu reino e seu povo da destruição.";
+        
+                x = gp.tileSize;
+                y = infoY;
+                g2.drawString(historia, x, y);
+                y += gp.tileSize;
+                g2.drawString(motivacao, x, y);
+            } else if (gp.ui.menuNum == 2) {
+                g2.setFont(fonte10);
+                String historia = "História: Athea é uma curandeira habilidosa, têm o poder de curar feridas físicas e emocionais.";
+                String motivacao = "Motivação: Seu maior desejo é restaurar a esperança onde ela foi perdida.";
+        
+                x = gp.tileSize;
+                y = infoY;
+                g2.drawString(historia, x, y);
+                y += gp.tileSize;
+                g2.drawString(motivacao, x, y);
+            }
+        }        
+          
     }
+
     
 
     public void drawTelaDePause(){
@@ -423,7 +524,7 @@ public class UserInterface {
             g2.drawImage(gp.player.inventario.get(i).descida1, slotX, slotY, null);
             slotX += slotSize;
             
-            // Move para a próxima linha após o número de slots por linha
+            
             if ((i + 1) % slotsPerLargura == 0) {
                 slotX = slotXstart;
                 slotY += slotSize;
@@ -473,7 +574,7 @@ public class UserInterface {
         g2.setColor(Color.white);
         g2.setFont(fonte20);
 
-        //SUB WINDOW
+        //  SUB WINDOW
         int frameX = gp.tileSize *6;
         int frameY = gp.tileSize;
         int frameLargura = gp.tileSize*8;
@@ -570,11 +671,11 @@ public class UserInterface {
         //VOLTAR
         textX = frameX + gp.tileSize;
         textY = frameY + gp.tileSize * 9;
-        g2.drawString("Voltar", textX, textY);
+        g2.drawString("Voltar - ESC", textX, textY);
         if(comandoNum == 0){
             g2.drawString(">", textX -25 , textY);
             if(gp.keyH.enterPressed == true){
-                gp.gameState = gp.pauseState;
+                //gp.gameState = gp.pauseState;
             }
         }
         

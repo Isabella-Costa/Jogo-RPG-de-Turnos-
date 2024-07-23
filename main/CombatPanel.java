@@ -27,16 +27,29 @@ public class CombatPanel extends JPanel {
         inventoryButton = new JButton("Inventário");
         abandonButton = new JButton("Abandonar Batalha");
 
+        Dimension buttonSize = new Dimension(150, 50);
+        attackButton.setPreferredSize(buttonSize);
+        inventoryButton.setPreferredSize(buttonSize);
+        abandonButton.setPreferredSize(buttonSize);
+
+        attackButton.setBackground(Color.RED);
+        attackButton.setForeground(Color.WHITE);
+        inventoryButton.setBackground(new Color(139, 69, 19));
+        inventoryButton.setForeground(Color.WHITE);
+        abandonButton.setBackground(Color.GRAY);
+        abandonButton.setForeground(Color.WHITE);
+
         attackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                playerAttack();
+                System.out.println("Atacar botão pressionado");
             }
         });
 
         inventoryButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                System.out.println("Inventário botão pressionado");
                 openInventory();
             }
         });
@@ -44,7 +57,8 @@ public class CombatPanel extends JPanel {
         abandonButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                gp.gameState = gp.menuState;
+                System.out.println("Abandonar Batalha botão pressionado");
+                System.exit(0);
             }
         });
 
@@ -64,7 +78,7 @@ public class CombatPanel extends JPanel {
     }
 
     public void openInventory() {
-        // cod para abrir o inventário
+        gp.ui.drawInventory();
     }
 
     public void abandonBattle() {
@@ -111,15 +125,19 @@ public class CombatPanel extends JPanel {
         inimigo.worldY = enemyY;
 
         // Desenha o jogador e  inimigo
+        String batalhaDirection = player.direction;
+        player.direction = "direita";
         player.draw(g2);
         inimigo.draw(g2);
 
         player.worldX = originalPlayerX;
         player.worldY = originalPlayerY;
+        player.direction = batalhaDirection;
         
         inimigo.worldX = originalEnemyX;
         inimigo.worldY = originalEnemyY;
     }
+
 
     public void drawGrid(Graphics2D g2) {
         int largura = getWidth();  

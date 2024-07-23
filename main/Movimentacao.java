@@ -6,7 +6,7 @@ import java.awt.event.KeyListener;
 public class Movimentacao implements KeyListener {
     GamePanel gp;
 
-    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed;
+    public boolean upPressed, downPressed, leftPressed, rightPressed, enterPressed, shotKeyPressed;
 
     public Movimentacao(GamePanel gp) {
         this.gp = gp;
@@ -43,12 +43,32 @@ public class Movimentacao implements KeyListener {
             personagemState(code);
         }
 
+        //GameOver State
+        else if(gp.gameState == gp.gameOverState){
+            gameOverState(code);
+        }
+
     }
 
-    public void historiaState(int code){
+    public void gameOverState(int code){
         if(code == KeyEvent.VK_ENTER){
-            enterPressed = true;
-
+            if(gp.ui.comandoNum == 0){
+                gp.gameState = gp.menuState;
+            } else if (gp.ui.comandoNum == 1) {
+                System.exit(0);   
+            }
+        }
+        if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP) {
+            gp.ui.comandoNum--;
+            if (gp.ui.comandoNum < 0) {
+                gp.ui.comandoNum = 1;
+            }
+        }
+        if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
+            gp.ui.comandoNum++;
+            if (gp.ui.comandoNum > 1) {
+                gp.ui.comandoNum = 0;
+            }
         }
     }
         
@@ -66,7 +86,7 @@ public class Movimentacao implements KeyListener {
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN) {
             gp.ui.comandoNum++;
             if (gp.ui.comandoNum > 2) {
-                gp.ui.comandoNum = 3;
+                gp.ui.comandoNum = 0;
             }
         }
     }
@@ -76,20 +96,18 @@ public class Movimentacao implements KeyListener {
             if (code == KeyEvent.VK_W || code == KeyEvent.VK_UP){
                 gp.ui.menuNum--;
                 if (gp.ui.menuNum < 0){
-                    gp.ui.menuNum = 2;
+                    gp.ui.menuNum = 1;
                 }
             }
             if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){
                 gp.ui.menuNum++;
-                if (gp.ui.menuNum >  3){
-                    gp.ui.menuNum = 0;
+                if (gp.ui.menuNum >  1){
+                    gp.ui.menuNum = 2;
                 }
             }
             if (code == KeyEvent.VK_ENTER){
                  if(gp.ui.menuNum == 0){gp.ui.telaScreenState = 1;} 
-                 else if(gp.ui.menuNum == 1){ }
-                 else if(gp.ui.menuNum == 2){;}
-                 else if(gp.ui.menuNum == 3){ System.exit(0);}
+                 else if(gp.ui.menuNum == 1){System.exit(0); }
             }
         }
         else if (gp.ui.telaScreenState == 1) {
@@ -133,6 +151,7 @@ public class Movimentacao implements KeyListener {
         if (code == KeyEvent.VK_S || code == KeyEvent.VK_DOWN){ downPressed = true; }
         if (code == KeyEvent.VK_A || code == KeyEvent.VK_LEFT){ leftPressed= true; }
         if (code == KeyEvent.VK_D || code == KeyEvent.VK_RIGHT){ rightPressed = true;}
+        if (code == KeyEvent.VK_F){ shotKeyPressed = true;}
         if (code == KeyEvent.VK_ESCAPE){ 
             gp.gameState = gp.pauseState;
 
@@ -208,6 +227,7 @@ public class Movimentacao implements KeyListener {
             rightPressed = false;
             
         }
+        if (code == KeyEvent.VK_F){ shotKeyPressed = false;}
     }
     
 }

@@ -83,9 +83,11 @@ public class Inimigo extends Entity {
 
     @Override
     public void update() {
-        setAction();
-        usarHabilidade();
-
+        if (gp.gameState == gp.batalhaState && !vivo) {
+            morrendo = true;
+            return;
+        }
+        
         if (invencibilidade) {
             invencibilidadeContador++;
             if (invencibilidadeContador > 40) {
@@ -105,7 +107,13 @@ public class Inimigo extends Entity {
         if (life <= 0) {
             morrendo = true;
         }
-    }
+        if (gp.gameState == gp.batalhaState || !vivo) return;
+
+        if (Math.random() < 0.5) {
+            setAction();
+            usarHabilidade();
+        }
+}
 
     public void usarHabilidade() {
         switch (habilidadeUsada) {

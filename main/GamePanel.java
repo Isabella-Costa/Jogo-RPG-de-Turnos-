@@ -32,7 +32,7 @@ public class GamePanel extends JPanel implements Runnable{
     //FPS (Frame Per Second)
     int FPS = 60;
     
-    //      Instaciações
+    //      Instaciações    //
 
     //Sistema:
     TileManager tileM = new TileManager(this);
@@ -49,6 +49,7 @@ public class GamePanel extends JPanel implements Runnable{
     public Entity obj[] = new Entity[30]; //quantidade de objetos no jogo
     public Entity npc[] = new Entity[10];
     public Entity monster[] = new Entity[20];
+    public ArrayList<Entity> projeteisList = new ArrayList<>();
     ArrayList<Entity> entityList = new ArrayList<>();
     
 
@@ -177,6 +178,17 @@ public class GamePanel extends JPanel implements Runnable{
                 }
             }
           }
+          // PROJETEIS
+          for (int i = 0; i < projeteisList.size(); i++) {
+            if(projeteisList.get(i) != null){
+                if( projeteisList.get(i).vivo == true){
+                    projeteisList.get(i).update();
+                }
+                if(projeteisList.get(i).vivo == false){
+                    projeteisList.remove(i);
+                }
+            }
+          }
 
         }
         if(gameState == pauseState){
@@ -204,24 +216,31 @@ public class GamePanel extends JPanel implements Runnable{
             entityList.clear();
 
             entityList.add(player);
-
+            //NPC
             for (int i = 0; i < npc.length; i++) {
                 if(npc[i] != null){
                     entityList.add(npc[i]);
 
                 }  
             }
+            //OBJ
             for (int i = 0; i < obj.length; i++) {
                 if(obj[i] != null){
                     entityList.add(obj[i]);
                 }
                 
             }
+            //MONSTRO
             for (int i = 0; i < monster.length; i++) {
                 if(monster[i] != null){
                     entityList.add(monster[i]);
                 }
                 
+            }
+            for (int i = 0; i < projeteisList.size(); i++) {
+                if (projeteisList.get(i) != null) {
+                    entityList.add(projeteisList.get(i));
+                }
             }
 
 

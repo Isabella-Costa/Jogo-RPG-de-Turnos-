@@ -4,6 +4,7 @@ import java.util.Random;
 
 import entity.Entity;
 import main.GamePanel;
+import objeto.OBJ_Pedra;
 
 public class Monstro extends Entity{
     GamePanel gp;
@@ -13,10 +14,14 @@ public class Monstro extends Entity{
         this.gp = gp;
 
         tipo = tipoMonstro;
-        name = "Esqueleto Monstro";
+        name = "Minotauro";
         speed = 2;
         maxLife = 4;
         life = maxLife;
+        ataque = 5;
+        defesa =0;
+        exp = 2;
+        projectiles = new OBJ_Pedra(gp);
 
         solidArea.x = 3;
         solidArea.y = 18;
@@ -62,7 +67,17 @@ public class Monstro extends Entity{
           }
 
           bloqueioDeAcaoContador = 0;
+
         }
+        int i = new Random().nextInt(100) + 1;
+        if(i > 99  && projectiles.vivo == false && shotDisponivelContador== 30){
+
+            projectiles.set(worldX, worldY, direction, true, this);
+            gp.projeteisList.add(projectiles);
+            shotDisponivelContador = 0;
+        }
+
+
     }
 
     public void danoReacao(){

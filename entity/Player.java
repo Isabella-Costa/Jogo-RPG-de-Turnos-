@@ -7,8 +7,10 @@ import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main.*;
+import objeto.OBJ_BolaDeFogo;
 import objeto.OBJ_Escudo;
 import objeto.OBJ_Espada;
+import objeto.OBJ_Pedra;
 
 
 public abstract class Player extends Entity {
@@ -17,13 +19,14 @@ public abstract class Player extends Entity {
     public int temChave = 0;
     public final int screenX; 
     public final int screenY;
+    int srandCounter = 0;
     public boolean ataqueCancelado = false;
     public ArrayList<Entity> inventario = new ArrayList<>();
     public final int maxInventarioSize = 20;
     public int tipo; 
-    public static final int GUERREIRO = 0;
-    public static final int SOLDADO = 1;
-    public static final int CURANDEIRA = 2;
+    public static final int guerreiro = 0;
+    public static final int soldado = 1;
+    public static final int curandeira = 2;
 
 
 
@@ -58,6 +61,8 @@ public abstract class Player extends Entity {
         //Player VIDA
         level = 1;
         life = maxLife;
+        mana = maxMana;
+        municao = 10;
         força = 1; // quanto mais força tem , mais dano ele causa
         destreza =1; // quanto mais destreza tem , menos dano ele recebe
         exp=0;
@@ -65,13 +70,25 @@ public abstract class Player extends Entity {
         coin = 0;
         currentbArma = new OBJ_Espada(gp);
         currentEscudo = new OBJ_Escudo(gp);
+        projectiles = new OBJ_BolaDeFogo(gp);
         ataque = getAtaque(); //O valor total do ataque é decidido pela força e arma
         defesa = getDefesa();  // O valor total da defesa é descidido pela destreza e escudo 
 
     }
+    public void setDefaultPosicao(){
+        worldX = gp.tileSize *23;
+        worldY = gp.tileSize *21;
+        direction = "direita";
+    }
+
+    public void restauraVidaeMana(){
+        life = maxLife;
+        mana = maxMana;
+        invencibilidade= false;
+    }
 
     public void setItems(){
-
+        inventario.clear();
         inventario.add(currentbArma);
         inventario.add(currentEscudo);
     }
@@ -92,7 +109,8 @@ public abstract class Player extends Entity {
     public void update() {
         if (atacando) {
             atacando();
-        } else if (keyH.upPressed || keyH.downPressed || keyH.leftPressed || keyH.rightPressed || keyH.enterPressed) {
+        } else if (keyH.upPressed == true || keyH.downPressed == true || keyH.leftPressed == true || keyH.rightPressed == true|| 
+                keyH.enterPressed== true) {
             if (keyH.upPressed) {
                 direction = "subida";
             } else if (keyH.downPressed) {
@@ -148,12 +166,31 @@ public abstract class Player extends Entity {
             }
         }
 
-        if (invencibilidade) {
+        if (keyH.shotKeyPressed == true && projectiles.vivo == false && 
+                shotDisponivelContador == 30 && projectiles.temRecursos(this) == true) {
+            //  Pega as coordenadas padrão, a direção e o user
+            projectiles.set(worldX, worldY, direction, true, this);
+
+            // Subtrair o custo (mana, ammo etc)
+            projectiles.subtraiRecurso(this);
+
+
+            //  Add isso na lista
+            gp.projeteisList.add(projectiles);
+            shotDisponivelContador = 0;
+
+        }
+
+        if (invencibilidade == true) {
             invencibilidadeContador++;
             if (invencibilidadeContador > 60) {
                 invencibilidade = false;
                 invencibilidadeContador = 0;
             }
+        }
+
+        if(shotDisponivelContador < 30){
+            shotDisponivelContador++;
         }
 
         if(life > maxLife){
@@ -197,7 +234,7 @@ public abstract class Player extends Entity {
 
             //Check colisão do montros com as atualizações worldX/Y, solidarea
             int monsterIndex = gp.cCheck.checkEntity(this, gp.monster);
-            danoMonster(monsterIndex);
+            danoMonster(monsterIndex, ataque);
 
             //Depois de verificar a colisão, volta aos dados originais
             worldX= currentWorldX;
@@ -241,7 +278,8 @@ public abstract class Player extends Entity {
                     break;
                 case "Porçao Vermelha": 
                     if(inventario.size() != maxInventarioSize){
-                        inventario.add(gp.obj[i]);  
+                        inventario.add(gp.obj[i]);
+                        mana = maxMana;  
                         gp.obj[i] = null; 
                     } 
                     break;
@@ -256,7 +294,14 @@ public abstract class Player extends Entity {
                     gp.obj[i] = null;
                     break;
                 case "Bau":
-                    gp.obj[i] = null;
+                    if(level >= 10){
+                        gp.obj[i] = null;
+                        life = maxLife;
+                        mana = maxMana;
+                        gp.ui.currentDialogo = "Você encontrou um baú! Prepare-se para a batalha!";
+                    } else {
+                        gp.ui.currentDialogo = "Você não está para iniciar esta batalha.";
+                    }
                     break;
                     }
         }
@@ -287,16 +332,26 @@ public abstract class Player extends Entity {
         }   
     }
 
-    public void danoMonster(int i){
+    public void danoMonster(int i, int ataque){
         if(i != 999){
             if(gp.monster[i].invencibilidade == false){
-                gp.monster[i].life -= 1;
+
+                int dano = ataque -= gp.monster[i].defesa;
+                if(dano < 0){
+                    dano = 0;
+                }
+                gp.monster[i].life -= dano;
+                gp.ui.addMessage(dano + " dano!");
+
                 gp.monster[i].invencibilidade = true;  
                 gp.monster[i].danoReacao();
                 
                 if(gp.monster[i].life <= 0){
                     gp.monster[i].morrendo = true;
-                    
+                    gp.ui.addMessage("Matou o " + gp.monster[i].name + "!");
+                    gp.ui.addMessage("EXP: +" + gp.monster[i].exp);
+                    exp += gp.monster[i].exp;
+                    checkLevelUp();
                 }
             }
         }
@@ -307,15 +362,19 @@ public abstract class Player extends Entity {
         if(exp >= proxLevelExp){
             level++;
             proxLevelExp = proxLevelExp*2;
-            maxLife += 4;
+            maxLife += 2;
             life = maxLife;
+            mana = maxMana;
             força++;
             destreza++;
             ataque = getAtaque();
             defesa = getDefesa();
+
+            gp.gameState = gp.dialogoState;
+            gp.ui.currentDialogo = "Level " + level + " agora!\nVocê está se aproximando da batalha!";
         }
         if(level > 3){
-            //gp.gameState = gp.batalhaState;
+            gp.gameState = gp.batalhaState;
         }
     }
 

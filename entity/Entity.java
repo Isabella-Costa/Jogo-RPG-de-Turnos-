@@ -7,6 +7,7 @@ import java.awt.Rectangle;
 import java.awt.AlphaComposite;
 import java.awt.image.BufferedImage;
 import java.awt.Color;
+
 import main.*;
 
 public class Entity {
@@ -45,6 +46,7 @@ public class Entity {
     public int invencibilidadeContador = 0;
     int morteCounter = 0;
     public int hpBarContador = 0;
+    public int shotDisponivelContador = 0; 
 
     //Caracteristicas Atributos
     public String name; 
@@ -53,6 +55,7 @@ public class Entity {
     public int life;
     public int maxMana;
     public int mana;
+    public int municao;
     public int level;
     public int força; 
     public int destreza; 
@@ -69,6 +72,7 @@ public class Entity {
     public int ataqueValor;
     public int defesaValor;
     public String descrição = "";
+    public int useCusto;
 
     //TIPO
     public int tipo; // 0 - player, 1 - npc,   2 - monstro
@@ -97,6 +101,7 @@ public class Entity {
     public void danoReacao(){
 
     }
+
     public void speak(){
         if(dialogos[dialogosIndex] == null){
             dialogosIndex = 0;
@@ -133,7 +138,8 @@ public class Entity {
         boolean contatoPlayer = gp.cCheck.checkPlayer(this);
 
         if(this.tipo == tipoMonstro && contatoPlayer == true){
-            danoPlayer(ataque);
+            danoPlayer(ataque);    
+                
         }
 
         if(!colisaoOn){
@@ -161,13 +167,19 @@ public class Entity {
                     invencibilidadeContador = 0;
                 }
             }
+            if(shotDisponivelContador < 30){
+                shotDisponivelContador++;
+            }
         }
     }
 
     public void danoPlayer(int ataque){
         if(gp.player.invencibilidade == false){
-            //Podemos causar danos
-            gp.player.life -= 1;
+            int dano = ataque - gp.player.defesa;
+            if (dano < 0) { 
+                dano = 0;
+            }   
+            gp.player.life -= dano;
             gp.player.invencibilidade = true;
         }
 

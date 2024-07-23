@@ -20,7 +20,7 @@ public class Guerreiro extends Player {
         this.força += 2;
         this.destreza += 1;
         maxMana = 3;
-        mana = maxMana;
+        defesa *=2;
 
     }
 
