@@ -16,7 +16,7 @@ import entity.*;
 public class UserInterface {
     GamePanel gp;
     Graphics2D g2;
-    Font fonte10, fonte15, fonte20, fonte30 ,fonte40, fonte80;
+    Font fonte12, fonte15, fonte20, fonte30 ,fonte40, fonte80;
     Font fonteTitulo;
     BufferedImage coracaoFull, coracaoMetade, coracaoVazio, cristalFull, cristalBranco;
     public boolean messageOn = false;
@@ -37,7 +37,7 @@ public class UserInterface {
 
     public UserInterface(GamePanel gp) {
         this.gp = gp;
-        this.fonte15 = new Font("Cambria", Font.BOLD, 10);
+        this.fonte12 = new Font("Cambria", Font.BOLD, 12);
         this.fonte15 = new Font("Cambria", Font.BOLD, 15);
         this.fonte20 = new Font("Cambria", Font.BOLD, 20 );
         this.fonte30 = new Font("Cambria", Font.BOLD, 30 ); //Definir a fonte depois
@@ -313,7 +313,7 @@ public class UserInterface {
                 g2.drawString(">", x - gp.tileSize, y);
             }
         
-            g2.setFont(fonte10);
+            g2.setFont(fonte12);
             texto = "DICA: Se você ainda não conhece os comandos do jogo, clique ESC quando ele começar";
             x = getXparaCentralizarTexto(texto);
             y = gp.tileSize;
@@ -322,7 +322,7 @@ public class UserInterface {
             int infoY = gp.screenHeigth - (gp.tileSize*2);
         
             if (gp.ui.menuNum == 0) {
-                g2.setFont(fonte10);
+                g2.setFont(fonte15);
                 String historia = "História: Alex é um jovem guerreiro que sempre sonhou em se tornar um herói. ";
                 String motivacao = "Motivação: Provar seu valor e proteger seu lar das garras de Zargath.";
         
@@ -332,7 +332,7 @@ public class UserInterface {
                 y += gp.tileSize;
                 g2.drawString(motivacao, x, y);
             } else if (gp.ui.menuNum == 1) {
-                g2.setFont(fonte10);
+                g2.setFont(fonte15);
                 String historia = "História: Tharok é um veterano de guerra, conhecido por sua bravura no campo de batalha. ";
                 String motivacao = "Motivação: Defender seu reino e seu povo da destruição.";
         
@@ -342,7 +342,7 @@ public class UserInterface {
                 y += gp.tileSize;
                 g2.drawString(motivacao, x, y);
             } else if (gp.ui.menuNum == 2) {
-                g2.setFont(fonte10);
+                g2.setFont(fonte15);
                 String historia = "História: Athea é uma curandeira habilidosa, têm o poder de curar feridas físicas e emocionais.";
                 String motivacao = "Motivação: Seu maior desejo é restaurar a esperança onde ela foi perdida.";
         
